@@ -1,37 +1,57 @@
 //SHIP
 export interface ShipObject {
-    playerId: number,
-    hull: number,
+    playerId: number
+    hull: number
     health: number
 }
 
 //CARDS
-export interface CardAction {
-    value: number,
-    target: string,
-    category: string,
-    subCategory: string
+export interface CardOther {
+    playagain?: boolean;
+    drawDiscardPlayagain?: boolean
+    undiscardable?: boolean
 }
 
 export interface CardObject {
-    name: string,
-    rarity: number,
-    resource: string,
-    cost: number,
-    actions: CardAction[],
+    name: string
     description?: string
+    type: string
+    cost: number
+    rarity: number
+    other?: CardOther
+    actions: (p: CardPlayerStats, o: CardPlayerStats) => void
 }
+
+export type CardPlayerStats = PlayerStats
 
 // RESOURCES
 export interface Resource {
-    name: string,
+    name: string
     unit: string
+    production: number
 }
 
 export interface ResourceStore {
-    defense: Resource[],
-    power: Resource[],
+    defense: Resource[]
+    power: Resource[]
     offense: Resource[]
 }
+
+//Player
+export interface PlayerStats {
+    material: number
+    energy: number
+    ammunition: number
+    materialProd: number
+    energyProd: number
+    ammunitionProd: number
+    health: number
+    hull: number
+  }
+
+  export interface Players {
+    playerOne: PlayerStats
+    playerTwo: PlayerStats
+  }
 
 export default module

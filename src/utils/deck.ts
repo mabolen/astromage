@@ -1,15 +1,15 @@
-import { CardObject, CardAction, Resource } from '../types/types'
-import { defenseCards, offenseCards, powerCards } from './cardDictionary'
+import { CardObject } from '../types/types'
+import { defenseCards, offenseCards, powerCards } from '../data/cardDictionary'
 
 export default class Deck {
-    resources: Resource[] = [
-        {name: 'defense', unit: 'material'},
-        {name: 'power', unit: 'energy'},
-        {name: 'offense', unit: 'ammunition'}
-    ]
 
     deck: CardObject[] = [defenseCards, offenseCards, powerCards].flat()
 
     buildDeck() {
+        let output: CardObject[] = []
+        this.deck.forEach(c => {
+            output.push(this.deck[Math.floor(Math.random() * this.deck.length)])
+        })
+        return output
     }
 }

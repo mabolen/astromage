@@ -1,7 +1,24 @@
 .cardBody {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items:center;
     width: 180px;
     height: 280px;
     background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid white;
     border-radius: 20px;
+}
+.cardBody:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+.defense {
+    background-color: rgba(51, 51, 51, 0.8);
+}
+.power {
+    background-color: rgba(17, 17, 153, 0.8);
+}
+.offense {
+    background-color: rgba(153, 17, 17, 0.8);
 }
