@@ -1,0 +1,51 @@
+.uiContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 100%;
+}
+.resourceDiv {
+    width: 150px;
+    height: 150px;
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+.defense {
+    background-color: rgba(51, 51, 51, 0.8);
+}
+.power {
+    background-color: rgba(17, 17, 153, 0.8);
+}
+.offense {
+    background-color: rgba(153, 17, 17, 0.8);
+}
+.imageDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    border: 1px solid white;
+    margin-bottom: 5px;
+}
+.resourceCountDiv {
+    width: 100%;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.replenishCount {
+    width: 40px;
+    position: relative;
+    left: -10px;
+    bottom: -30px;
+    font-size: 20px;
+    font-weight: 600;
+}

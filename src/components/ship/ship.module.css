@@ -1,0 +1,8 @@
+.ship {
+}
+.playerOne {
+
+}
+.playerTwo {
+    transform: rotate(180deg);
+}

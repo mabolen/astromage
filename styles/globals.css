@@ -14,7 +14,15 @@ a {
 * {
   box-sizing: border-box;
 }
-
+.defense {
+  background-color: rgba(51, 51, 51, 0.8);
+}
+.power {
+  background-color: rgba(17, 17, 153, 0.8);
+}
+.offense {
+  background-color: rgba(153, 17, 17, 0.8);
+}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
