@@ -7,6 +7,7 @@ import Ship from '../src/components/ship/ship';
 import { PlayerStats, CardObject } from '../src/types/types';
 import { useState, useEffect } from 'react';
 import Deck from '../src/utils/deck';
+import GameInstance from '../src/utils/gameInstance';
 
 const Home: NextPage = () => {
   /* STATE TO TRACK
@@ -16,33 +17,11 @@ const Home: NextPage = () => {
       - cards in hand
       - win conditions
   */
+  const gameInstance = new GameInstance()
   const deck1 = new Deck().buildDeck()
   const deck2 = new Deck().buildDeck()
 
-  const initialStats: PlayerStats = {
-    material: 5,
-    energy: 5,
-    ammunition: 5,
-    materialProd: 2,
-    energyProd: 2,
-    ammunitionProd: 2,
-    health: 20,
-    hull: 10
-  }
-
-  const gameState = {
-    started: false,
-    turn: 1,
-    win: false,
-    playerOne: {
-        stats: initialStats,
-        hand: deck1
-    },
-    playerTwo: {
-        stats: initialStats,
-        hand: deck2
-    }
-  }
+  const gameState = gameInstance.newGame()
 
   const [state, updateState] = useState(gameState)
 
@@ -60,16 +39,19 @@ const Home: NextPage = () => {
         <title>AstroMage</title>
       </Head>
       {!state.started ? 
-        <div hidden={state.started} className={styles.startContainer}>
+        <div className={styles.startContainer}>
           <h1>AstroMage</h1>
           <button className={styles.button} onClick={()=> startGame()}>Start Game</button>
         </div> :
-        <main hidden={!state.started} className={styles.gameContainer}>
+        <main className={styles.gameContainer}>
           <div className={styles.playerOneDiv}>
             <ResourceUi></ResourceUi>
           </div>
           <div className={styles.shipOneDiv}>
             <Ship player='playerOne'></Ship>
+          </div>
+          <div className={styles.playedCardsDiv}>
+            <Card card={state.playerOne.hand[0]}></Card>
           </div>
           <div className={styles.gamePlayDiv}></div>
           <div className={styles.playerTwoDiv}>
