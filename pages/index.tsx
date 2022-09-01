@@ -22,16 +22,26 @@ const Home: NextPage = () => {
   const deck2 = new Deck().buildDeck()
 
   const gameState = gameInstance.newGame()
-
   const [state, updateState] = useState(gameState)
-
   const startGame = (): void => {
     updateState({...state, started: true})
+    console.log(state)
   }
 
+
+  // useEffect(()=> {
+  //   startGame()
+  // }, [])
+
+
   const cards = state.playerOne.hand.map((c, i) => {
+    if (i === 5) return
     return <Card card={c} key={i}></Card>
   })
+
+  const drawCards = () => {
+    
+  }
 
   return (    
     <>

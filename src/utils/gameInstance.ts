@@ -1,6 +1,6 @@
 import Player from './player'
 import Deck from './deck'
-import { CardObject, CardPlayerStats, PlayerStats } from '../types/types'
+import { CardObject, CardPlayerStats, PlayerStats, HandObject, GameInterface } from '../types/types'
 
 export default class GameInstance {
 
@@ -19,21 +19,34 @@ export default class GameInstance {
           health: 20,
           hull: 10
         }
-      
-        return {
-          started: false,
-          turn: 1,
-          win: false,
-          activeCards: [],
-          playerOne: {
-              stats: initialStats,
-              hand: deck1
-          },
-          playerTwo: {
-              stats: initialStats,
-              hand: deck2
-          }
+
+        const initialState: GameInterface = {
+            started: false,
+            turn: 1,
+            win: false,
+            activeCards: [],
+            playerOne: {
+                stats: initialStats,
+                hand: this.drawHand(deck1),
+                deck: deck1
+            },
+            playerTwo: {
+                stats: initialStats,
+                hand: this.drawHand(deck2),
+                deck: deck2
+            }
         }
+      
+        return initialState
+    }
+
+    drawHand(deck: CardObject[]): CardObject[] {
+        let hand: CardObject[] = []
+        while (hand.length <= 6) {
+            const random: number = Math.floor(Math.random() * deck.length)
+            hand.push(deck[random])
+        }
+        return hand
     }
 
     playCard(card: CardObject, p: CardPlayerStats, o: CardPlayerStats): void {
@@ -47,7 +60,10 @@ export default class GameInstance {
     }
 
     drawCard(hand: CardObject[], deck: CardObject[]) {
+        let cardsInHand = hand.length
         const random = Math.round(Math.random() * deck.length)
-        hand.push(deck[random])
+        while(cardsInHand < 6) {
+            hand.push(deck[random])
+        }
     }
 }

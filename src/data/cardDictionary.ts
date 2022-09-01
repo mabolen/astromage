@@ -18,6 +18,17 @@ export const defenseCards: CardObject[] = [
         cost: 3,
         rarity: 2,
         actions: (p: CardPlayerStats, o: CardPlayerStats) => change(p, 'materialProd', 1)
+    },
+    {
+        name: 'Rare Ore Asteroid Mining Facility',
+        description: 'Material +8, Defense +2',
+        type: 'defense',
+        cost: 0,
+        rarity: 4,
+        actions: (p: CardPlayerStats, o: CardPlayerStats) => {
+            change(p, 'materialProd', 2)
+            change(p, 'material', 8)
+        }
     }
 ]
 

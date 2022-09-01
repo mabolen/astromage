@@ -10,9 +10,14 @@ const Card = (props: any) => {
         card.type === 'power' ? power : offense
     return (
         <div className={`${styles[`${card.type}`]} ${styles.cardBody}`}>
-            <Image src={img} />
-            <span>{card.name}</span>
-            <span>{card.description}</span>
+            <span className={styles.titleSpan}>{card.name}</span>
+            <div className={styles.imgDiv}>
+                
+            </div>
+            <span className={styles.textSpan}>{card.description}</span>
+            <div className={styles.cardIcon}>
+                <Image width={20} height={20} src={img} />
+            </div>
         </div>
     )
 }

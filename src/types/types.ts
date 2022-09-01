@@ -1,3 +1,21 @@
+//GAME
+export interface GameInterface {
+    started: boolean
+    turn: number
+    win: boolean
+    activeCards: CardObject[]
+    playerOne: {
+        stats: PlayerStats
+        hand: CardObject[]
+        deck: CardObject[]
+    },
+    playerTwo: {
+        stats: PlayerStats
+        hand: CardObject[]
+        deck: CardObject[]
+    }
+}
+
 //SHIP
 export interface ShipObject {
     playerId: number
@@ -21,6 +39,8 @@ export interface CardObject {
     other?: CardOther
     actions: (p: CardPlayerStats, o: CardPlayerStats) => void
 }
+
+export type HandObject = CardObject[]
 
 export type CardPlayerStats = PlayerStats
 

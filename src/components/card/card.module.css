@@ -1,17 +1,41 @@
 .cardBody {
+    position: relative;
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
     align-items:center;
-    width: 150px;
-    height: 250px;
+    width: 180px;
+    height: 290px;
     background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid white;
-    border-radius: 20px;
+    border-radius: 2px;
+    text-align: center;
 }
 .cardBody:hover {
     opacity: 0.8;
     cursor: pointer;
+}
+.imgDiv {
+    width: 160px;
+    height: 160px;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.titleSpan {
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.textSpan {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+}
+.cardIcon {
+    position: absolute;
+    left: 153px;
+    top: 260px;
 }
 .defense {
     background-color: rgba(51, 51, 51, 0.8);
