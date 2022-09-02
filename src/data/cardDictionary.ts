@@ -9,7 +9,10 @@ export const defenseCards: CardObject[] = [
         type: 'defense',
         cost: 3,
         rarity: 1,
-        actions: (p: CardPlayerStats, o: CardPlayerStats) => change(p, 'hull', 3)
+        actions: (p: CardPlayerStats, o: CardPlayerStats) => {
+            change(p, 'hull', 3)
+            change(p, 'material', -3)
+        }
     },
     {
         name: 'Space Welders',
@@ -17,7 +20,32 @@ export const defenseCards: CardObject[] = [
         type: 'defense',
         cost: 3,
         rarity: 2,
-        actions: (p: CardPlayerStats, o: CardPlayerStats) => change(p, 'materialProd', 1)
+        actions: (p: CardPlayerStats, o: CardPlayerStats) => {
+            change(p, 'materialProd', 1)
+            change(p, 'material', -3)
+        }
+    },
+    {
+        name: 'Rare Ore Asteroid Mining Facility',
+        description: 'Material +8, Defense +2',
+        type: 'defense',
+        cost: 0,
+        rarity: 4,
+        actions: (p: CardPlayerStats, o: CardPlayerStats) => {
+            change(p, 'materialProd', 2)
+            change(p, 'material', 8)
+        }
+    },
+    {
+        name: 'Sabotage Mining',
+        description: '-1 Enemy Defense',
+        type: 'defense',
+        cost: 3,
+        rarity: 2,
+        actions: (p: CardPlayerStats, o: CardPlayerStats) => {
+            change(o, 'materialProd', 2)
+            change(p, 'material', -3)
+        }
     },
     {
         name: 'Rare Ore Asteroid Mining Facility',
@@ -39,7 +67,10 @@ export const offenseCards: CardObject[] = [
         type: 'offense',
         cost: 3,
         rarity: 1,
-        actions: (p, o) => change(o, 'hull', 3)
+        actions: (p, o) => {
+            change(o, 'hull', 3)
+            change(p, 'ammunition', -3)
+        }
     },
     {
         name: 'Laser Factory',
@@ -47,7 +78,10 @@ export const offenseCards: CardObject[] = [
         type: 'offense',
         cost: 3,
         rarity: 2,
-        actions: (p, o) => change(p, 'ammunitionProd', 1)   
+        actions: (p, o) => {
+            change(p, 'ammunitionProd', 1)
+            change(p, 'ammunition', -3)
+        }   
     }
 ]
 
@@ -58,7 +92,10 @@ export const powerCards: CardObject[] = [
         type: 'power',
         cost: 3,
         rarity: 1,
-        actions: (p, o) => change(p, 'health', 3)  
+        actions: (p, o) => {
+            change(p, 'health', 3)
+            change(p, 'energy', -3)
+        }  
         
     },
     {
@@ -67,7 +104,10 @@ export const powerCards: CardObject[] = [
         type: 'power',
         cost: 3,
         rarity: 2,
-        actions: (p, o) => change(p, 'energyProd', 1)
+        actions: (p, o) => {
+            change(p, 'energyProd', 1)
+            change(p, 'energy', -3)
+        }
         
     }
 ]

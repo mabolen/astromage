@@ -15,6 +15,7 @@ const Card = (props: any) => {
                 
             </div>
             <span className={styles.textSpan}>{card.description}</span>
+            <span className={styles.cardCost}>{card.cost}</span>
             <div className={styles.cardIcon}>
                 <Image width={20} height={20} src={img} />
             </div>

@@ -32,6 +32,11 @@
     justify-content: center;
     font-size: 14px;
 }
+.cardCost {
+    position: absolute;
+    right: 158px;
+    top: 260px;
+}
 .cardIcon {
     position: absolute;
     left: 153px;
