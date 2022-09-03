@@ -5,39 +5,36 @@ import { CardObject, CardPlayerStats, PlayerStats, HandObject, GameInterface } f
 export default class GameInstance {
 
     newGame() {
-        const deck1 = new Deck().buildDeck()
-        const deck2 = new Deck().buildDeck()
-      
-        //TODO: add ruleset to make starting stats/conditions dynamic based on user selections
-        const initialStats: PlayerStats = {
-          material: 5,
-          energy: 5,
-          ammunition: 5,
-          materialProd: 2,
-          energyProd: 2,
-          ammunitionProd: 2,
-          health: 20,
-          hull: 10
-        }
 
         const initialState: GameInterface = {
             started: false,
             turn: 1,
-            win: false,
-            activeCards: [],
-            playerOne: {
-                stats: initialStats,
-                hand: this.drawHand(deck1),
-                deck: deck1
-            },
-            playerTwo: {
-                stats: initialStats,
-                hand: this.drawHand(deck2),
-                deck: deck2
-            }
+            win: false
         }
       
         return initialState
+    }
+
+    newPlayer() {
+
+        const deck = new Deck().buildDeck()
+
+        const initialStats: PlayerStats = {
+            material: 5,
+            energy: 5,
+            ammunition: 5,
+            materialProd: 2,
+            energyProd: 2,
+            ammunitionProd: 2,
+            health: 20,
+            hull: 10
+        }
+        
+        return {
+            stats: initialStats,
+            hand: this.drawHand(deck),
+            deck: deck
+        }
     }
 
     drawHand(deck: CardObject[]): CardObject[] {

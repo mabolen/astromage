@@ -5,70 +5,65 @@ import Card from '../src/components/card/card';
 import ResourceUi from '../src/components/resourceUi/resourceUi';
 import Ship from '../src/components/ship/ship';
 import { PlayerStats, CardObject } from '../src/types/types';
-import { useState, useEffect } from 'react';
-import Deck from '../src/utils/deck';
+import { useState } from 'react';
 import GameInstance from '../src/utils/gameInstance';
 
 const Home: NextPage = () => {
-  /* STATE TO TRACK
-      - game started
-      - turn
-      - player stats
-      - cards in hand
-      - win conditions
-  */
+
   const gameInstance = new GameInstance()
-  const deck1 = new Deck().buildDeck()
-  const deck2 = new Deck().buildDeck()
 
-  const gameState = gameInstance.newGame()
-  const [state, updateState] = useState(gameState)
-  const startGame = (): void => {
-    updateState({...state, started: true})
-    console.log(state)
+  const [gameState, updateGameState] = useState(gameInstance.newGame())
+  const [player1, updatePlayer1] = useState(gameInstance.newPlayer())
+  const [player2, updatePlayer2] = useState(gameInstance.newPlayer())
+
+  const startGame = (): void => updateGameState({...gameState, started: true})
+
+  const playCard = (c: CardObject, p1: PlayerStats, p2: PlayerStats) => {
+    if (gameState.turn === 1) {
+      c.actions(p1, p2)
+      updatePlayer1({...player1, stats: p1})
+      updatePlayer2({...player2, stats: p2})
+      updateGameState({...gameState, turn: 2})
+    } else {
+      c.actions(p2, p1)
+      updatePlayer1({...player1, stats: p1})
+      updatePlayer2({...player2, stats: p2})
+      updateGameState({...gameState, turn: 1})
+    }
   }
 
-
-  // useEffect(()=> {
-  //   startGame()
-  // }, [])
-
-
-  const cards = state.playerOne.hand.map((c, i) => {
+  const cards = player1.hand.map((c, i) => {
     if (i === 5) return
-    return <Card card={c} key={i}></Card>
+    return <div key={i} onClick={() => playCard(c, player1.stats, player2.stats)}>
+              <Card card={c} key={i} ></Card>
+          </div>
   })
-
-  const drawCards = () => {
-    
-  }
 
   return (    
     <>
       <Head>
         <title>AstroMage</title>
       </Head>
-      {!state.started ? 
+      {!gameState.started ? 
         <div className={styles.startContainer}>
           <h1>AstroMage</h1>
           <button className={styles.button} onClick={()=> startGame()}>Start Game</button>
         </div> :
         <main className={styles.gameContainer}>
           <div className={styles.playerOneDiv}>
-            <ResourceUi></ResourceUi>
+            <ResourceUi playerStats={player1.stats}></ResourceUi>
           </div>
           <div className={styles.shipOneDiv}>
-            <Ship player='playerOne'></Ship>
+            <Ship player='player1' stats={player1.stats}></Ship>
           </div>
           <div className={styles.playedCardsDiv}>
-            <Card card={state.playerOne.hand[0]}></Card>
           </div>
           <div className={styles.gamePlayDiv}></div>
           <div className={styles.playerTwoDiv}>
-            <ResourceUi></ResourceUi>
+            <ResourceUi playerStats={player2.stats}></ResourceUi>
           </div>
           <div className={styles.shipTwoDiv}>
-            <Ship player='playerTwo'></Ship>
+            <Ship player='player2' stats={player2.stats}></Ship>
           </div>
           <div className={styles.playerHandDiv}>{cards}</div>
         </main> 

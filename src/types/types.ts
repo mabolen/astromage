@@ -3,17 +3,6 @@ export interface GameInterface {
     started: boolean
     turn: number
     win: boolean
-    activeCards: CardObject[]
-    playerOne: {
-        stats: PlayerStats
-        hand: CardObject[]
-        deck: CardObject[]
-    },
-    playerTwo: {
-        stats: PlayerStats
-        hand: CardObject[]
-        deck: CardObject[]
-    }
 }
 
 //SHIP

@@ -68,7 +68,18 @@ export const offenseCards: CardObject[] = [
         cost: 3,
         rarity: 1,
         actions: (p, o) => {
-            change(o, 'hull', 3)
+            damage(o, 3)
+            change(p, 'ammunition', -3)
+        }
+    },
+    {
+        name: 'Missile Barrage',
+        description: '6 damage',
+        type: 'offense',
+        cost: 4,
+        rarity: 2,
+        actions: (p, o) => {
+            damage(o, 6)
             change(p, 'ammunition', -3)
         }
     },
