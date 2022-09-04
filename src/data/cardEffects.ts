@@ -20,6 +20,10 @@ export const damage = (
     player: CardPlayerStats,
     amount: number
 ) => {
-    change(player, 'hull', -amount)
-    if (player.hull - amount < 0) change(player, 'health', player.hull - amount)
+    if (player.hull - amount < 0) {
+        change(player, 'health', player.hull - amount)
+        player.hull = 0
+    } else  {
+        change(player, 'hull', -amount)
+    }
 }

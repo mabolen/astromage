@@ -15,6 +15,16 @@
     opacity: 0.8;
     cursor: pointer;
 }
+.disabled {
+    width: 180px;
+    height: 290px;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+}
+.disabled:hover {
+    cursor:default;
+}
 .imgDiv {
     width: 160px;
     height: 160px;

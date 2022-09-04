@@ -1,3 +1,5 @@
+import Deck from "../utils/deck"
+
 //GAME
 export interface GameInterface {
     started: boolean
@@ -46,8 +48,23 @@ export interface ResourceStore {
     offense: Resource[]
 }
 
+export interface ResourceMap {
+    [key: string]: string
+    defense: 'material'
+    power: 'energy'
+    offense: 'ammunition'
+}
+
+export interface ResProdMap {
+    [key: string]: string
+    materialProd: 'material'
+    energyProd: 'energy'
+    ammunitionProd: 'ammunition'
+}
+
 //Player
 export interface PlayerStats {
+    [key: string]: number
     material: number
     energy: number
     ammunition: number
@@ -58,9 +75,15 @@ export interface PlayerStats {
     hull: number
   }
 
+  export interface Player {
+    stats: PlayerStats
+    hand: HandObject
+    deck: CardObject[]
+  }
+
   export interface Players {
-    playerOne: PlayerStats
-    playerTwo: PlayerStats
+    player1: Player
+    player2: Player
   }
 
 export default module

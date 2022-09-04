@@ -1,11 +1,19 @@
+import { ResourceMap, ResProdMap } from "../types/types"
+
 export const resNames = ['material', 'energy', 'ammunition'] as const
 
 export const resProds = ['materialProd', 'energyProd', 'ammunitionProd']
 
-export const resProdMap = {
+export const resProdMap: ResProdMap = {
     materialProd: 'material',
     energyProd: 'energy',
     ammunitionProd: 'ammunition',
+} as const
+
+export const resMap: ResourceMap = {
+  defense: 'material',
+  power: 'energy',
+  offense: 'ammunition',
 } as const
 
 export const poNames = ['playerOneName', 'playerTwoName'] as const

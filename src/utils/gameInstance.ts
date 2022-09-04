@@ -1,6 +1,6 @@
-import Player from './player'
 import Deck from './deck'
-import { CardObject, CardPlayerStats, PlayerStats, HandObject, GameInterface } from '../types/types'
+import { CardObject, CardPlayerStats, PlayerStats, HandObject, GameInterface, Player } from '../types/types'
+import { resProdMap } from '../constants/resourceNames'
 
 export default class GameInstance {
 
@@ -15,10 +15,9 @@ export default class GameInstance {
         return initialState
     }
 
-    newPlayer() {
+    newPlayer(): Player {
 
         const deck = new Deck().buildDeck()
-
         const initialStats: PlayerStats = {
             material: 5,
             energy: 5,
@@ -37,6 +36,12 @@ export default class GameInstance {
         }
     }
 
+    updateResources(p: PlayerStats) {
+        for (const key in resProdMap) {
+            p[resProdMap[key]] += p[key]
+        }
+    }
+
     drawHand(deck: CardObject[]): CardObject[] {
         let hand: CardObject[] = []
         while (hand.length <= 6) {
@@ -50,17 +55,13 @@ export default class GameInstance {
         card.actions(p, o)
     }
 
-    discardCard(hand: CardObject[], index: number, deck: CardObject[]) {
+    discardCard(hand: CardObject[], index: number) {
         //splice from player hand based on index
-        const random = Math.round(Math.random() * deck.length)
         hand.splice(index, 1)
     }
 
-    drawCard(hand: CardObject[], deck: CardObject[]) {
-        let cardsInHand = hand.length
-        const random = Math.round(Math.random() * deck.length)
-        while(cardsInHand < 6) {
-            hand.push(deck[random])
-        }
+    drawCard(player: Player) {
+        const random = Math.round(Math.random() * player.deck.length)
+        player.hand.push(player.deck[random])
     }
 }
