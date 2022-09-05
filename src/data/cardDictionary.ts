@@ -65,7 +65,7 @@ export const defenseCards: CardObject[] = [
         cost: 3,
         rarity: 2,
         actions: (p: CardPlayerStats, o: CardPlayerStats) => {
-            change(o, 'materialProd', 2)
+            change(o, 'materialProd', -1)
             change(p, 'material', -3)
         }
     },
@@ -101,7 +101,7 @@ export const defenseCards: CardObject[] = [
         rarity: 3,
         actions: (p: CardPlayerStats, o: CardPlayerStats) => {
             change(p, 'energy', 5)
-            change(p, 'power', 1)
+            change(p, 'energyProd', 1)
             change(p, 'material', -4)
         }
     },
@@ -112,9 +112,9 @@ export const defenseCards: CardObject[] = [
         cost: 6,
         rarity: 3,
         actions: (p: CardPlayerStats, o: CardPlayerStats) => {
-            change(p, 'defense', 1)
-            change(p, 'power', 1)
-            change(p, 'offense', 1)
+            change(p, 'materialProd', 1)
+            change(p, 'energyProd', 1)
+            change(p, 'ammunitionProd', 1)
             change(p, 'material', -6)
         }
     }
@@ -140,7 +140,7 @@ export const offenseCards: CardObject[] = [
         rarity: 3,
         actions: (p, o) => {
             damage(o, 5)
-            change(o, 'defense', -1)
+            change(o, 'materialProd', -1)
             change(p, 'ammunition', -6)
         }
     },
@@ -281,7 +281,7 @@ export const powerCards: CardObject[] = [
         cost: 3,
         rarity: 2,
         actions: (p, o) => {
-            change(p, 'materialProd', 3)
+            change(p, 'materialProd', 1)
             change(p, 'material', 4)
             change(p, 'energy', -3)
         }

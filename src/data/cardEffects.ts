@@ -1,11 +1,22 @@
 import { CardPlayerStats } from "../types/types"
 
+const minimumValue = (p: CardPlayerStats, t: keyof CardPlayerStats) => {
+    if (t === 'materialProd' || t === 'energyProd' || t === 'ammunitionProd') {
+        return p[t] <= 0 ? 1 : p[t]
+    } else if (t === 'hull' || t === 'health') {
+        return p[t]
+    } else {
+        return p[t] < 0 ? 0 : p[t]
+    }
+}
+
 export const set = (
     player: CardPlayerStats,
     target: keyof CardPlayerStats,
     amount: number
 ) => {
     player[target] = amount
+    player[target] = minimumValue(player, target)
 }
 
 export const change = (

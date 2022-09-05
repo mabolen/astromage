@@ -55,9 +55,10 @@ export default class GameInstance {
         card.actions(p, o)
     }
 
-    discardCard(hand: CardObject[], index: number) {
+    discardCard(player: Player, index: number) {
         //splice from player hand based on index
-        hand.splice(index, 1)
+        player.hand.splice(index, 1)
+        this.drawCard(player)
     }
 
     drawCard(player: Player) {

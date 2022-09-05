@@ -23,30 +23,28 @@ const Home: NextPage = () => {
 
   const playCard = (c: CardObject, p: Player, o: Player, index: number) => {
     c.actions(p.stats, o.stats)
-    gameInstance.discardCard(p.hand, index)
     gameInstance.updateResources(p.stats)
-    gameInstance.drawCard(p)
+    gameInstance.discardCard(p, index)
     endRound(player1.stats, player2.stats)
   }
 
-  const handleDiscard = (hand: CardObject[], index: number, e: any) => {
+  const handleDiscard = (p: Player, index: number, e: any) => {
     e.preventDefault()
-    gameInstance.discardCard(hand, index)
+    gameInstance.discardCard(p, index)
+    gameInstance.updateResources(p.stats)
     endRound(player1.stats, player2.stats)
   }
 
   const endRound = (p1: PlayerStats, p2: PlayerStats) => {
-    updateGameState({...gameState, turn: gameState.turn === 1 ? 2 : 1})
     updatePlayer1({...player1, stats: p1})
     updatePlayer2({...player2, stats: p2})
+    updateGameState({...gameState, turn: gameState.turn === 1 ? 2 : 1})
   }
 
   const cards = (p: Player, o: Player) => p.hand.map((c, i) => {
-    console.log(c)
-    const clickable: boolean = c.cost <= p.stats[resMap[c.type]]
     if (i === 5) return
-    return <div key={i} onClick={() => clickable ? playCard(c, p, o, i) : null} onContextMenu={(e) => handleDiscard(p.hand, i, e)}>
-              <Card card={c} key={i} stats={p.stats} disabled={clickable}></Card>
+    return <div key={i} onClick={() => c.cost <= p.stats[resMap[c.type]] ? playCard(c, p, o, i) : null} onContextMenu={(e) => handleDiscard(p, i, e)}>
+              <Card card={c} key={i} stats={p.stats}></Card>
           </div>
   })
 
