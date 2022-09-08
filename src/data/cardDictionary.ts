@@ -236,6 +236,17 @@ export const offenseCards: CardObject[] = [
             damage(o, 13)
             change(p, 'ammunition', -7)
         }   
+    },
+    {
+        name: 'Ram',
+        description: 'Deal 10, take 5 Damage',
+        type: 'offense',
+        cost: 5,
+        rarity: 3,
+        actions: (p, o) => {
+            change(p, 'health', -5)
+            damage(o, 10)
+        }
     }
 ]
 
