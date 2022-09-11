@@ -1,10 +1,6 @@
 import { CardObject, CardPlayerStats } from '../types/types'
 import { set, change, damage } from './cardEffects'
 
-// Should these be separate? By rarity?
-
-/* What needs to be done: 1. make rarity matter 2. handle cost differently 3. balance cards */
-
 export const defenseCards: CardObject[] = [
     {
         name: 'Reinforce Hull',
@@ -39,6 +35,17 @@ export const defenseCards: CardObject[] = [
         }
     },
     {
+        name: 'Prioritize Critical Systems',
+        description: 'Health +5, Hull -5',
+        type: 'defense',
+        cost: 3,
+        rarity: 1,
+        actions: (p: CardPlayerStats, o: CardPlayerStats) => {
+            change(p, 'hull', -5)
+            change(p, 'health', 5)
+        }
+    },
+    {
         name: 'Ghost Ship Salvage',
         description: 'Hull +5',
         type: 'defense',
@@ -46,6 +53,18 @@ export const defenseCards: CardObject[] = [
         rarity: 2,
         actions: (p: CardPlayerStats, o: CardPlayerStats) => {
             change(p, 'hull', 5)
+        }
+    },
+    {
+        name: 'Unionize Workers',
+        description: 'Defense +1, -2 Energy, -2 Ammunition',
+        type: 'defense',
+        cost: 2,
+        rarity: 2,
+        actions: (p: CardPlayerStats, o: CardPlayerStats) => {
+            change(p, 'materialProd', 1)
+            change(p, 'energy', -2)
+            change(p, 'ammunition', -2)
         }
     },
     {
@@ -178,6 +197,28 @@ export const offenseCards: CardObject[] = [
         }
     },
     {
+        name: '2-Stage Charge',
+        description: '4 damage to ship health',
+        type: 'offense',
+        cost: 4,
+        rarity: 1,
+        actions: (p, o) => {
+            change(o, 'health', -4)
+        }
+    },
+    {
+        name: 'Recruit Pacifists',
+        description: '-1 Offense, +1 Defense, +2 Material',
+        type: 'offense',
+        cost: 4,
+        rarity: 2,
+        actions: (p, o) => {
+            change(p, 'ammunitionProd', -1)
+            change(p, 'materialProd', 1)
+            change(p, 'material', 2)
+        }
+    },
+    {
         name: 'Laser Factory',
         description: 'Offense +1',
         type: 'offense',
@@ -265,12 +306,12 @@ export const offenseCards: CardObject[] = [
     },
     {
         name: 'Cyber Attack',
-        description: '-3 energy production',
+        description: '-2 enemy Power',
         type: 'offense',
         cost: 8,
         rarity: 4,
         actions: (p, o) => {
-            change(o, 'energyProd', -3)
+            change(o, 'energyProd', -2)
         }   
     },
     {
@@ -285,7 +326,7 @@ export const offenseCards: CardObject[] = [
         }   
     },
     {
-        name: 'Ultra-Marine Assult',
+        name: 'Ultra-Marine Assault',
         description: '20 Damage',
         type: 'offense',
         cost: 15,
@@ -338,6 +379,27 @@ export const powerCards: CardObject[] = [
         rarity: 1,
         actions: (p, o) => {
             change(p, 'ammunitionProd', 1)
+        }
+    },
+    {
+        name: 'Force Field',
+        description: 'Hull +3',
+        type: 'power',
+        cost: 3,
+        rarity: 1,
+        actions: (p, o) => {
+            change(p, 'hull', 3)
+        }
+    },
+    {
+        name: 'Overload Reactor',
+        description: 'Take 4 damage, Power +1',
+        type: 'power',
+        cost: 3,
+        rarity: 2,
+        actions: (p, o) => {
+            damage(p, 4)
+            change(p, 'energyProd', 1)
         }
     },
     {
