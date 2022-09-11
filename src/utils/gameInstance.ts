@@ -8,7 +8,8 @@ export default class GameInstance {
     initialInstance: GameInterface = {
         started: false,
         turn: 1,
-        win: false
+        win: false,
+        winner: ''
     }
 
     player: Player = {
@@ -30,7 +31,8 @@ export default class GameInstance {
         const initialState: GameInterface = {
             started: true,
             turn: 1,
-            win: false
+            win: false,
+            winner: ''
         }
       
         return initialState

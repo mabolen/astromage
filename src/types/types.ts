@@ -5,6 +5,7 @@ export interface GameInterface {
     started: boolean
     turn: number
     win: boolean
+    winner: string
 }
 
 //SHIP

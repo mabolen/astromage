@@ -24,11 +24,11 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (winCondition(player1.stats, player2.stats)) {
       console.log('Player 1 wins!')
-      updateGameState({...gameState, started: false, win: true})
+      updateGameState({...gameState, started: false, win: true, winner: 'Player 1'})
     }
     if (winCondition(player2.stats, player1.stats)) {
       console.log('Player 2 wins!')
-      updateGameState({...gameState, started: false, win: true})
+      updateGameState({...gameState, started: false, win: true, winner: 'Player 2'})
     }
   }, [player1, player2])
 
@@ -97,7 +97,7 @@ const Home: NextPage = () => {
       }
       {gameState.win ? 
       <div className={styles.winContainer}>
-        <h1>WIN!</h1>
+        <h1>{gameState.winner} WINS!</h1>
         <button className={styles.button} onClick={()=> startGame()}>Start Game</button>
       </div> : null}
     </>
