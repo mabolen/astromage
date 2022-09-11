@@ -17,7 +17,7 @@ export default class GameInstance {
 
     newPlayer(): Player {
 
-        const deck = new Deck().buildDeck()
+        const deck = new Deck().deck
         const initialStats: PlayerStats = {
             material: 5,
             energy: 5,
@@ -45,8 +45,7 @@ export default class GameInstance {
     drawHand(deck: CardObject[]): CardObject[] {
         let hand: CardObject[] = []
         while (hand.length <= 6) {
-            const random: number = Math.floor(Math.random() * deck.length)
-            hand.push(deck[random])
+            hand.push(this.drawCard(deck))
         }
         return hand
     }
@@ -58,11 +57,29 @@ export default class GameInstance {
     discardCard(player: Player, index: number) {
         //splice from player hand based on index
         player.hand.splice(index, 1)
-        this.drawCard(player)
+        player.hand.push(this.drawCard(player.deck))
     }
 
-    drawCard(player: Player) {
-        const random = Math.round(Math.random() * player.deck.length)
-        player.hand.push(player.deck[random])
+    drawCard(deck: CardObject[]) {
+        let rarity = 0
+        const random: number = Math.round(Math.random() * 69)
+        switch (true) {
+            case random <= 30:
+                rarity = 1
+                break
+            case random <= 50:
+                rarity = 2
+                break
+            case random <= 60:
+                rarity = 3
+                break
+            case random <= 65:
+                rarity = 4
+                break
+            default:
+                rarity = 5
+        }
+        const filteredCards = deck.filter(c => c.rarity === rarity)
+        return filteredCards[Math.floor(Math.random() * filteredCards.length)]
     }
 }

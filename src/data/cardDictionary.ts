@@ -2,6 +2,9 @@ import { CardObject, CardPlayerStats } from '../types/types'
 import { set, change, damage } from './cardEffects'
 
 // Should these be separate? By rarity?
+
+/* What needs to be done: 1. make rarity matter 2. handle cost differently 3. balance cards */
+
 export const defenseCards: CardObject[] = [
     {
         name: 'Reinforce Hull',
@@ -49,13 +52,13 @@ export const defenseCards: CardObject[] = [
     },
     {
         name: 'Rare Ore Asteroid Mining Facility',
-        description: 'Material +8, Defense +2',
+        description: 'Defense +2',
         type: 'defense',
-        cost: 0,
+        cost: 6,
         rarity: 4,
         actions: (p: CardPlayerStats, o: CardPlayerStats) => {
             change(p, 'materialProd', 2)
-            change(p, 'material', 8)
+            change(p, 'material', -6)
         }
     },
     {
@@ -71,7 +74,7 @@ export const defenseCards: CardObject[] = [
     },
     {
         name: 'Rare Ore Asteroid Mining Facility',
-        description: 'Material +8, Defense +2',
+        description: 'Defense +2',
         type: 'defense',
         cost: 0,
         rarity: 4,
@@ -244,8 +247,9 @@ export const offenseCards: CardObject[] = [
         cost: 5,
         rarity: 3,
         actions: (p, o) => {
-            change(p, 'health', -5)
+            damage(p, 5)
             damage(o, 10)
+            change(p, 'ammunition', -5)
         }
     }
 ]
