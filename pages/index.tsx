@@ -12,10 +12,9 @@ import GameInstance from '../src/utils/gameInstance';
 const Home: NextPage = () => {
 
   const gameInstance = new GameInstance()
-
-  const [gameState, updateGameState] = useState(gameInstance.newGame())
-  const [player1, updatePlayer1] = useState(gameInstance.newPlayer())
-  const [player2, updatePlayer2] = useState(gameInstance.newPlayer())
+  const [gameState, updateGameState] = useState(gameInstance.initialInstance)
+  const [player1, updatePlayer1] = useState(gameInstance.player)
+  const [player2, updatePlayer2] = useState(gameInstance.player)
 
   const winCondition = (player: PlayerStats, opponent: PlayerStats):boolean => {
     const resourceWin = (player.energy || player.ammunition || player.material) >= 50
@@ -25,22 +24,23 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (winCondition(player1.stats, player2.stats)) {
       console.log('Player 1 wins!')
-      updateGameState({...gameState, started: false})
+      updateGameState({...gameState, started: false, win: true})
     }
     if (winCondition(player2.stats, player1.stats)) {
       console.log('Player 2 wins!')
-      updateGameState({...gameState, started: false})
+      updateGameState({...gameState, started: false, win: true})
     }
   }, [player1, player2])
 
-  const startGame = (event: any): void => {
-    updateGameState({...gameState, started: true})
+  const startGame = (): void => {
+    updatePlayer1(gameInstance.newPlayer())
+    updatePlayer2(gameInstance.newPlayer())
+    updateGameState(gameInstance.newGame())
   }
 
   const playCard = (c: CardObject, p: Player, o: Player, index: number) => {
     c.actions(p.stats, o.stats)
     p.stats[resMap[c.type]] -= c.cost
-    gameInstance.updateResources(p.stats)
     gameInstance.discardCard(p, index)
     endRound(player1.stats, player2.stats)
   }
@@ -48,11 +48,11 @@ const Home: NextPage = () => {
   const handleDiscard = (p: Player, index: number, e: any) => {
     e.preventDefault()
     gameInstance.discardCard(p, index)
-    gameInstance.updateResources(p.stats)
     endRound(player1.stats, player2.stats)
   }
 
   const endRound = (p1: PlayerStats, p2: PlayerStats) => {
+    gameInstance.updateResources(gameState.turn === 1 ? p1 : p2)
     updatePlayer1({...player1, stats: p1})
     updatePlayer2({...player2, stats: p2})
     updateGameState({...gameState, turn: gameState.turn === 1 ? 2 : 1})
@@ -70,10 +70,10 @@ const Home: NextPage = () => {
       <Head>
         <title>AstroMage</title>
       </Head>
-      {!gameState.started ? 
+      {!gameState.started && !gameState.win ? 
         <div className={styles.startContainer}>
           <h1>AstroMage</h1>
-          <button className={styles.button} onClick={(e)=> startGame(e)}>Start Game</button>
+          <button className={styles.button} onClick={()=> startGame()}>Start Game</button>
         </div> :
         <main className={styles.gameContainer}>
           <div className={styles.playerOneDiv}>
@@ -93,8 +93,13 @@ const Home: NextPage = () => {
             <Ship player='player2' stats={player2.stats}></Ship>
           </div>
           <div className={styles.playerHandDiv}>{gameState.turn === 1 ? cards(player1, player2): cards(player2, player1)}</div>
-        </main> 
+        </main>
       }
+      {gameState.win ? 
+      <div className={styles.winContainer}>
+        <h1>WIN!</h1>
+        <button className={styles.button} onClick={()=> startGame()}>Start Game</button>
+      </div> : null}
     </>
   )
 }

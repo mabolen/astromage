@@ -3,11 +3,32 @@ import { CardObject, CardPlayerStats, PlayerStats, HandObject, GameInterface, Pl
 import { resProdMap } from '../constants/resourceNames'
 
 export default class GameInstance {
+    deckInstance = new Deck()
+
+    initialInstance: GameInterface = {
+        started: false,
+        turn: 1,
+        win: false
+    }
+
+    player: Player = {
+        stats: {
+            material: 5,
+            energy: 5,
+            ammunition: 5,
+            materialProd: 2,
+            energyProd: 2,
+            ammunitionProd: 2,
+            health: 20,
+            hull: 10
+        },
+        hand: [],
+        deck: new Deck().deck
+    }
 
     newGame() {
-
         const initialState: GameInterface = {
-            started: false,
+            started: true,
             turn: 1,
             win: false
         }
@@ -16,7 +37,6 @@ export default class GameInstance {
     }
 
     newPlayer(): Player {
-
         const deck = new Deck().deck
         const initialStats: PlayerStats = {
             material: 5,

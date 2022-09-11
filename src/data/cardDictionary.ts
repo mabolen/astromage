@@ -47,13 +47,13 @@ export const defenseCards: CardObject[] = [
         }
     },
     {
-        name: 'Rare Ore Asteroid Mining Facility',
-        description: 'Defense +2',
+        name: 'Steal Industry Secrets',
+        description: 'Enemy Defense > Player\'s: +2 Defense, else +1',
         type: 'defense',
         cost: 6,
         rarity: 4,
         actions: (p: CardPlayerStats, o: CardPlayerStats) => {
-            change(p, 'materialProd', 2)
+            change(p, 'materialProd', o.materialProd > p.materialProd ? 2 : 1)
         }
     },
     {
@@ -70,7 +70,7 @@ export const defenseCards: CardObject[] = [
         name: 'Rare Ore Asteroid Mining Facility',
         description: 'Defense +2',
         type: 'defense',
-        cost: 8,
+        cost: 6,
         rarity: 4,
         actions: (p: CardPlayerStats, o: CardPlayerStats) => {
             change(p, 'materialProd', 2)
