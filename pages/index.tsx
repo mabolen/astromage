@@ -6,7 +6,7 @@ import ResourceUi from '../src/components/resourceUi/resourceUi';
 import Ship from '../src/components/ship/ship';
 import { PlayerStats, CardObject, Player } from '../src/types/types';
 import { resMap } from '../src/constants/resourceNames';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import GameInstance from '../src/utils/gameInstance';
 
 const Home: NextPage = () => {
@@ -17,12 +17,29 @@ const Home: NextPage = () => {
   const [player1, updatePlayer1] = useState(gameInstance.newPlayer())
   const [player2, updatePlayer2] = useState(gameInstance.newPlayer())
 
+  const winCondition = (player: PlayerStats, opponent: PlayerStats):boolean => {
+    const resourceWin = (player.energy || player.ammunition || player.material) >= 50
+    return opponent.health <= 0 || resourceWin
+  }
+
+  useEffect(() => {
+    if (winCondition(player1.stats, player2.stats)) {
+      console.log('Player 1 wins!')
+      updateGameState({...gameState, started: false})
+    }
+    if (winCondition(player2.stats, player1.stats)) {
+      console.log('Player 2 wins!')
+      updateGameState({...gameState, started: false})
+    }
+  }, [player1, player2])
+
   const startGame = (event: any): void => {
     updateGameState({...gameState, started: true})
   }
 
   const playCard = (c: CardObject, p: Player, o: Player, index: number) => {
     c.actions(p.stats, o.stats)
+    p.stats[resMap[c.type]] -= c.cost
     gameInstance.updateResources(p.stats)
     gameInstance.discardCard(p, index)
     endRound(player1.stats, player2.stats)
