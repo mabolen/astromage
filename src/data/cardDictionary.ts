@@ -136,6 +136,39 @@ export const offenseCards: CardObject[] = [
         }
     },
     {
+        name: 'Pulse Bomb',
+        description: '5 damage',
+        type: 'offense',
+        cost: 4,
+        rarity: 1,
+        actions: (p, o) => {
+            damage(o, 5)
+            change(p, 'ammunition', -4)
+        }
+    },
+    {
+        name: 'Laser Turret',
+        description: '2 damage',
+        type: 'offense',
+        cost: 2,
+        rarity: 1,
+        actions: (p, o) => {
+            damage(o, 2)
+            change(p, 'ammunition', -2)
+        }
+    },
+    {
+        name: 'Kinetic Shot',
+        description: '3 damage',
+        type: 'offense',
+        cost: 2,
+        rarity: 2,
+        actions: (p, o) => {
+            damage(o, 3)
+            change(p, 'ammunition', -2)
+        }
+    },
+    {
         name: 'Magnetic Accelerators',
         description: '5 damage, -1 Enemy Defense',
         type: 'offense',
