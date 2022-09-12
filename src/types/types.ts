@@ -1,5 +1,3 @@
-import Deck from "../utils/deck"
-
 //GAME
 export interface GameInterface {
     started: boolean
@@ -31,8 +29,6 @@ export interface CardObject {
     other?: CardOther
     actions: (p: CardPlayerStats, o: CardPlayerStats) => void
 }
-
-export type HandObject = CardObject[]
 
 export type CardPlayerStats = PlayerStats
 
@@ -78,13 +74,20 @@ export interface PlayerStats {
 
   export interface Player {
     stats: PlayerStats
-    hand: HandObject
+    hand: CardObject[]
     deck: CardObject[]
+    statusEffects?: StatusEffects
   }
 
-  export interface Players {
-    player1: Player
-    player2: Player
+  export interface StatusEffects {
+    [key: string]: boolean
+    fire: boolean
+    corrosion: boolean
+    healing: boolean
+    repairing: boolean
+    noPower: boolean
+    noDefense: boolean
+    noOffense: boolean
   }
 
 export default module

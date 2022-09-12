@@ -21,7 +21,7 @@ const Home: NextPage = () => {
     return opponent.health <= 0 || resourceWin
   }
 
-  useEffect(() => {
+  useEffect((): void => {
     if (winCondition(player1.stats, player2.stats)) {
       console.log('Player 1 wins!')
       updateGameState({...gameState, started: false, win: true, winner: 'Player 1'})
@@ -38,27 +38,27 @@ const Home: NextPage = () => {
     updateGameState(gameInstance.newGame())
   }
 
-  const playCard = (c: CardObject, p: Player, o: Player, index: number) => {
+  const playCard = (c: CardObject, p: Player, o: Player, index: number): void => {
     c.actions(p.stats, o.stats)
     p.stats[resMap[c.type]] -= c.cost
     gameInstance.discardCard(p, index)
     endRound(player1.stats, player2.stats)
   }
 
-  const handleDiscard = (p: Player, index: number, e: any) => {
+  const handleDiscard = (p: Player, index: number, e: any): void => {
     e.preventDefault()
     gameInstance.discardCard(p, index)
     endRound(player1.stats, player2.stats)
   }
 
-  const endRound = (p1: PlayerStats, p2: PlayerStats) => {
+  const endRound = (p1: PlayerStats, p2: PlayerStats): void => {
     gameInstance.updateResources(gameState.turn === 1 ? p1 : p2)
     updatePlayer1({...player1, stats: p1})
     updatePlayer2({...player2, stats: p2})
     updateGameState({...gameState, turn: gameState.turn === 1 ? 2 : 1})
   }
 
-  const cards = (p: Player, o: Player) => p.hand.map((c, i) => {
+  const cards = (p: Player, o: Player) => p.hand.map((c: CardObject, i: number) => {
     if (i === 5) return
     return <div key={i} onClick={() => c.cost <= p.stats[resMap[c.type]] ? playCard(c, p, o, i) : null} onContextMenu={(e) => handleDiscard(p, i, e)}>
               <Card card={c} key={i} stats={p.stats}></Card>
@@ -80,7 +80,7 @@ const Home: NextPage = () => {
             <ResourceUi playerStats={player1.stats}></ResourceUi>
           </div>
           <div className={styles.shipOneDiv}>
-            <Ship player='player1' stats={player1.stats}></Ship>
+            <Ship player='player1' stats={player1.stats} statusEffects={player1.statusEffects}></Ship>
           </div>
           <div className={styles.playedCardsDiv}>
             {gameState.turn}
@@ -90,7 +90,7 @@ const Home: NextPage = () => {
             <ResourceUi playerStats={player2.stats}></ResourceUi>
           </div>
           <div className={styles.shipTwoDiv}>
-            <Ship player='player2' stats={player2.stats}></Ship>
+            <Ship player='player2' stats={player2.stats} statusEffects={player2.statusEffects}></Ship>
           </div>
           <div className={styles.playerHandDiv}>{gameState.turn === 1 ? cards(player1, player2): cards(player2, player1)}</div>
         </main>

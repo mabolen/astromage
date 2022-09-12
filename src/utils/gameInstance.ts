@@ -1,9 +1,9 @@
-import Deck from './deck'
-import { CardObject, CardPlayerStats, PlayerStats, HandObject, GameInterface, Player } from '../types/types'
+import { CardObject, CardPlayerStats, PlayerStats, GameInterface, Player } from '../types/types'
 import { resProdMap } from '../constants/resourceNames'
+import { defenseCards, powerCards, offenseCards } from '../data/cardDictionary'
 
 export default class GameInstance {
-    deckInstance = new Deck()
+    deck = [defenseCards, offenseCards, powerCards].flat()
 
     initialInstance: GameInterface = {
         started: false,
@@ -24,10 +24,19 @@ export default class GameInstance {
             hull: 10
         },
         hand: [],
-        deck: new Deck().deck
+        deck: this.deck,
+        statusEffects: {
+            fire: false,
+            corrosion: false,
+            healing: false,
+            repairing: false,
+            noPower: false,
+            noDefense: false,
+            noOffense: false
+        }
     }
 
-    newGame() {
+    newGame(): GameInterface {
         const initialState: GameInterface = {
             started: true,
             turn: 1,
@@ -39,7 +48,6 @@ export default class GameInstance {
     }
 
     newPlayer(): Player {
-        const deck = new Deck().deck
         const initialStats: PlayerStats = {
             material: 5,
             energy: 5,
@@ -53,8 +61,9 @@ export default class GameInstance {
         
         return {
             stats: initialStats,
-            hand: this.drawHand(deck),
-            deck: deck
+            hand: this.drawHand(this.deck),
+            deck: this.deck,
+            statusEffects: this.player.statusEffects
         }
     }
 
@@ -77,7 +86,6 @@ export default class GameInstance {
     }
 
     discardCard(player: Player, index: number) {
-        //splice from player hand based on index
         player.hand.splice(index, 1)
         player.hand.push(this.drawCard(player.deck))
     }
