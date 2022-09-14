@@ -17,7 +17,7 @@ const Ship = ({ player, stats, statusEffects }: Props) => {
         <div className={styles.ship}>
             <span>Health: {stats.health}</span>
             <span>Hull: {stats.hull}</span>
-            <Image width={200} height={200} src={player === 'player2' ? ship2 : ship}></Image>
+            <Image width={200} height={200} alt={`${name} Ship`} src={player === 'player2' ? ship2 : ship}></Image>
             <div className={styles.statusEffects}>
                 {statusEffects && Object.keys(statusEffects).map((e) =>
                     statusEffects[e] ? <div key={e} className={styles.statusIcon}><Image alt={`Status Effect ${e}`} src={statusIcons[e]} width={24} height={24}></Image></div> : null
