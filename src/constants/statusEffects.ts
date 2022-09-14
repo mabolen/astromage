@@ -7,16 +7,6 @@ import noPower from '../../public/images/powerIcon.png'
 import noOffense from '../../public/images/offenseIcon.png'
 import { StaticImageData } from 'next/image'
 
-export const statusIcons: StatusIconsInterface = {
-    fire: fire,
-    corrosion: corrosion,
-    healing: healing,
-    repairing: repairing,
-    noDefense: noDefense,
-    noPower: noPower,
-    noOffense: noOffense
-}
-
 interface StatusIconsInterface {
     [key: string]: StaticImageData
     fire: StaticImageData
@@ -26,4 +16,14 @@ interface StatusIconsInterface {
     noDefense: StaticImageData
     noPower: StaticImageData
     noOffense: StaticImageData
+}
+
+export const statusIcons: StatusIconsInterface = {
+    fire,
+    corrosion,
+    healing,
+    repairing,
+    noDefense,
+    noPower,
+    noOffense
 }

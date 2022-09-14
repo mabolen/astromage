@@ -20,10 +20,12 @@ export interface CardOther {
     undiscardable?: boolean
 }
 
+export type CardType = 'defense' | 'offense' | 'power'
+
 export interface CardObject {
     name: string
     description?: string
-    type: string
+    type: CardType
     cost: number
     rarity: number
     other?: CardOther
