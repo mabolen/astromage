@@ -1,15 +1,23 @@
+.playerName {
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 4px;
+}
+
 .ship {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 .statusEffects {
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgba(51, 51, 51, 0.6);
 }
+
 .statusIcon {
     padding: 5px;
     display: flex;

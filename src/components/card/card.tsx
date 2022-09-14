@@ -1,29 +1,35 @@
-import styles from './card.module.css'
+// Packages
 import Image from 'next/image'
-import defense from '../../../public/images/defense.png'
-import power from '../../../public/images/power.png'
-import offense from '../../../public/images/offense.png'
-import { PlayerStats, CardObject } from '../../types/types'
-import { resMap } from '../../constants/resourceNames'
 
-const Card = (props: any) => {
-    const card: CardObject = props.card
-    const stats: PlayerStats = props.stats
-    const disabled: boolean = card?.cost > stats[resMap[card?.type]]
-     
-    const img = card?.type === 'defense' ? defense :
-        card?.type === 'power' ? power : offense
+// Constants
+import { cardTypeIcons, resMap } from '../../constants'
+
+// Styles
+import styles from './card.module.css'
+
+// Types
+import { PlayerStats, CardObject } from '../../types'
+
+export type Props = {
+    card: CardObject
+    stats: PlayerStats
+}
+
+const Card = ({ card, stats }: Props) => {
+    const disabled = card.cost > stats[resMap[card.type]]
+    const img = cardTypeIcons[card.type]
+
     return (
-        <div className={`${styles[`${card?.type}`]} ${styles.cardBody}`}>
+        <div className={`${styles[`${card.type}`]} ${styles.cardBody}`}>
             <div hidden={!disabled} className={styles.disabled}></div>
-            <span className={styles.titleSpan}>{card?.name}</span>
+            <span className={styles.titleSpan}>{card.name}</span>
             <div className={styles.imgDiv}>
-                
+
             </div>
-            <span className={styles.textSpan}>{card?.description}</span>
-            <span className={styles.cardCost}>{card?.cost}</span>
+            <span className={styles.textSpan}>{card.description}</span>
+            <span className={styles.cardCost}>{card.cost}</span>
             <div className={styles.cardIcon}>
-                <Image width={20} height={20} src={img} />
+                <Image width={20} height={20} alt={`${card.type} icon`} src={img} />
             </div>
         </div>
     )

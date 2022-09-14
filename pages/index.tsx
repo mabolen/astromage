@@ -1,13 +1,24 @@
+// Packages
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { useState, useEffect } from 'react';
+
+// Components
 import Card from '../src/components/card/card';
 import ResourceUi from '../src/components/resourceUi/resourceUi';
 import Ship from '../src/components/ship/ship';
-import { PlayerStats, CardObject, Player } from '../src/types/types';
-import { resMap } from '../src/constants/resourceNames';
-import { useState, useEffect } from 'react';
-import GameInstance from '../src/utils/gameInstance';
+
+// Constants
+import { resMap } from '../src/constants';
+
+// Styles
+import styles from '../styles/Home.module.css'
+
+// Types
+import { PlayerStats, CardObject, Player } from '../src/types';
+
+// Utilities
+import { GameInstance } from '../src/utils';
 
 const Home: NextPage = () => {
 
@@ -16,7 +27,7 @@ const Home: NextPage = () => {
   const [player1, updatePlayer1] = useState(gameInstance.player)
   const [player2, updatePlayer2] = useState(gameInstance.player)
 
-  const winCondition = (player: PlayerStats, opponent: PlayerStats):boolean => {
+  const winCondition = (player: PlayerStats, opponent: PlayerStats): boolean => {
     const resourceWin = (player.energy || player.ammunition || player.material) >= 50
     return opponent.health <= 0 || resourceWin
   }
@@ -24,11 +35,11 @@ const Home: NextPage = () => {
   useEffect((): void => {
     if (winCondition(player1.stats, player2.stats)) {
       console.log('Player 1 wins!')
-      updateGameState({...gameState, started: false, win: true, winner: 'Player 1'})
+      updateGameState({ ...gameState, started: false, win: true, winner: 'Player 1' })
     }
     if (winCondition(player2.stats, player1.stats)) {
       console.log('Player 2 wins!')
-      updateGameState({...gameState, started: false, win: true, winner: 'Player 2'})
+      updateGameState({ ...gameState, started: false, win: true, winner: 'Player 2' })
     }
   }, [player1, player2])
 
@@ -53,27 +64,27 @@ const Home: NextPage = () => {
 
   const endRound = (p1: PlayerStats, p2: PlayerStats): void => {
     gameInstance.updateResources(gameState.turn === 1 ? p1 : p2)
-    updatePlayer1({...player1, stats: p1})
-    updatePlayer2({...player2, stats: p2})
-    updateGameState({...gameState, turn: gameState.turn === 1 ? 2 : 1})
+    updatePlayer1({ ...player1, stats: p1 })
+    updatePlayer2({ ...player2, stats: p2 })
+    updateGameState({ ...gameState, turn: gameState.turn === 1 ? 2 : 1 })
   }
 
   const cards = (p: Player, o: Player) => p.hand.map((c: CardObject, i: number) => {
     if (i === 5) return
     return <div key={i} onClick={() => c.cost <= p.stats[resMap[c.type]] ? playCard(c, p, o, i) : null} onContextMenu={(e) => handleDiscard(p, i, e)}>
-              <Card card={c} key={i} stats={p.stats}></Card>
-          </div>
+      <Card card={c} key={i} stats={p.stats}></Card>
+    </div>
   })
 
-  return (    
+  return (
     <>
       <Head>
         <title>AstroMage</title>
       </Head>
-      {!gameState.started && !gameState.win ? 
+      {!gameState.started && !gameState.win ?
         <div className={styles.startContainer}>
           <h1>AstroMage</h1>
-          <button className={styles.button} onClick={()=> startGame()}>Start Game</button>
+          <button className={styles.button} onClick={() => startGame()}>Start Game</button>
         </div> :
         <main className={styles.gameContainer}>
           <div className={styles.playerOneDiv}>
@@ -83,7 +94,7 @@ const Home: NextPage = () => {
             <Ship player='player1' stats={player1.stats} statusEffects={player1.statusEffects}></Ship>
           </div>
           <div className={styles.playedCardsDiv}>
-            {gameState.turn}
+            Player {gameState.turn}&apos;s Turn
           </div>
           <div className={styles.gamePlayDiv}></div>
           <div className={styles.playerTwoDiv}>
@@ -92,14 +103,14 @@ const Home: NextPage = () => {
           <div className={styles.shipTwoDiv}>
             <Ship player='player2' stats={player2.stats} statusEffects={player2.statusEffects}></Ship>
           </div>
-          <div className={styles.playerHandDiv}>{gameState.turn === 1 ? cards(player1, player2): cards(player2, player1)}</div>
+          <div className={styles.playerHandDiv}>{gameState.turn === 1 ? cards(player1, player2) : cards(player2, player1)}</div>
         </main>
       }
-      {gameState.win ? 
-      <div className={styles.winContainer}>
-        <h1>{gameState.winner} WINS!</h1>
-        <button className={styles.button} onClick={()=> startGame()}>Start Game</button>
-      </div> : null}
+      {gameState.win ?
+        <div className={styles.winContainer}>
+          <h1>{gameState.winner} WINS!</h1>
+          <button className={styles.button} onClick={() => startGame()}>Start Game</button>
+        </div> : null}
     </>
   )
 }

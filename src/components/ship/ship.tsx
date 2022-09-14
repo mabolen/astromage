@@ -1,24 +1,35 @@
-import styles from './ship.module.css'
+// Packages
+import Image from 'next/image'
+
+// Constants
+import { statusIcons } from '../../constants'
 import ship from '../../../public/images/ship.png'
 import ship2 from '../../../public/images/ship2.png'
-import { statusIcons } from '../../constants/statusEffects'
-import Image from 'next/image'
-import { PlayerStats, StatusEffects } from '../../types/types'
 
-const Ship = (props: any) => {
+// Styles
+import styles from './ship.module.css'
 
-    const player = props.player
-    const stats: PlayerStats = props.stats
-    const statusEffects: StatusEffects = props.statusEffects
+// Types
+import { PlayerName, PlayerStats, StatusEffects } from '../../types'
+
+export type Props = {
+    player: PlayerName
+    stats: PlayerStats
+    statusEffects?: StatusEffects
+}
+
+const Ship = ({ player, stats, statusEffects }: Props) => {
+    const name = player === 'player1' ? 'Player 1' : 'Player 2'
 
     return (
         <div className={styles.ship}>
+            <span className={styles.playerName}>{name}</span>
             <span>Health: {stats.health}</span>
             <span>Hull: {stats.hull}</span>
-            <Image width={200} height={200} src={player === 'player2' ? ship2 : ship}></Image>
+            <Image width={200} height={200} alt={`${name} Ship`} src={player === 'player2' ? ship2 : ship}></Image>
             <div className={styles.statusEffects}>
-                {Object.keys(statusEffects).map((e) => 
-                    statusEffects[e] ? <div key={e} className={styles.statusIcon}><Image src={statusIcons[e]} width={24} height={24}></Image></div> : null
+                {statusEffects && Object.keys(statusEffects).map((e) =>
+                    statusEffects[e] ? <div key={e} className={styles.statusIcon}><Image alt={`Status Effect ${e}`} src={statusIcons[e]} width={24} height={24}></Image></div> : null
                 )}
             </div>
         </div>

@@ -1,4 +1,5 @@
-import { ResourceMap, ResProdMap } from "../types/types"
+// Types
+import { ResourceMap, ResProdMap } from "../types"
 
 export const resNames = ['material', 'energy', 'ammunition'] as const
 
