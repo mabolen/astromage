@@ -1,9 +1,17 @@
-import styles from './resourceUi.module.css'
+// Packages
 import Image from 'next/image'
-import { cardTypeIcons } from '../../constants/cardTypes'
-import { resMap } from '../../constants/resourceNames'
-import { CardType, PlayerStats } from '../../types/types'
-import { capitalize } from '../../utils/stringUtils'
+
+// Constants
+import { cardTypeIcons, resMap } from '../../constants'
+
+// Styles
+import styles from './resourceUi.module.css'
+
+// Types
+import { CardType, PlayerStats } from '../../types'
+
+// Utilities
+import { capitalize } from '../../utils'
 
 export type CardProps = {
     amount: number

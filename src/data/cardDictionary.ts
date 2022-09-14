@@ -1,4 +1,4 @@
-import { CardObject, CardPlayerStats } from '../types/types'
+import { CardObject, CardPlayerStats } from '../types'
 import { set, change, damage } from './cardEffects'
 
 export const defenseCards: CardObject[] = [

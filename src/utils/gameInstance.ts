@@ -1,8 +1,13 @@
-import { CardObject, CardPlayerStats, PlayerStats, GameInterface, Player } from '../types/types'
-import { resProdMap } from '../constants/resourceNames'
-import { defenseCards, powerCards, offenseCards } from '../data/cardDictionary'
+// Constants
+import { resProdMap } from '../constants'
 
-export default class GameInstance {
+// Data
+import { defenseCards, powerCards, offenseCards } from '../data'
+
+// Types
+import { CardObject, CardPlayerStats, PlayerStats, GameInterface, Player } from '../types'
+
+export class GameInstance {
     deck = [defenseCards, offenseCards, powerCards].flat()
 
     initialInstance: GameInterface = {

@@ -1,9 +1,16 @@
-import styles from './ship.module.css'
+// Packages
+import Image from 'next/image'
+
+// Constants
+import { statusIcons } from '../../constants'
 import ship from '../../../public/images/ship.png'
 import ship2 from '../../../public/images/ship2.png'
-import { statusIcons } from '../../constants/statusEffects'
-import Image from 'next/image'
-import { PlayerName, PlayerStats, StatusEffects } from '../../types/types'
+
+// Styles
+import styles from './ship.module.css'
+
+// Types
+import { PlayerName, PlayerStats, StatusEffects } from '../../types'
 
 export type Props = {
     player: PlayerName

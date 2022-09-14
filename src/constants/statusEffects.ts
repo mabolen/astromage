@@ -1,29 +1,32 @@
-import fire from '../../public/images/fireIcon.png'
+// Packages
+import { StaticImageData } from 'next/image'
+
+// Constants
 import corrosion from '../../public/images/corrosionIcon.png'
 import healing from '../../public/images/healingIcon.png'
-import repairing from '../../public/images/repairIcon.png'
+import fire from '../../public/images/fireIcon.png'
 import noDefense from '../../public/images/defenseIcon.png'
-import noPower from '../../public/images/powerIcon.png'
 import noOffense from '../../public/images/offenseIcon.png'
-import { StaticImageData } from 'next/image'
+import noPower from '../../public/images/powerIcon.png'
+import repairing from '../../public/images/repairIcon.png'
 
 interface StatusIconsInterface {
     [key: string]: StaticImageData
-    fire: StaticImageData
     corrosion: StaticImageData
     healing: StaticImageData
-    repairing: StaticImageData
+    fire: StaticImageData
     noDefense: StaticImageData
-    noPower: StaticImageData
     noOffense: StaticImageData
+    noPower: StaticImageData
+    repairing: StaticImageData
 }
 
 export const statusIcons: StatusIconsInterface = {
-    fire,
     corrosion,
     healing,
-    repairing,
+    fire,
     noDefense,
+    noOffense,
     noPower,
-    noOffense
+    repairing,
 }

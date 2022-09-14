@@ -1,4 +1,7 @@
+// Packages
 import { StaticImageData } from 'next/image'
+
+// Constants
 import defense from '../../public/images/defense.png'
 import offense from '../../public/images/offense.png'
 import power from '../../public/images/power.png'

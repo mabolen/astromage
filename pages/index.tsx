@@ -1,13 +1,24 @@
+// Packages
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { useState, useEffect } from 'react';
+
+// Components
 import Card from '../src/components/card/card';
 import ResourceUi from '../src/components/resourceUi/resourceUi';
 import Ship from '../src/components/ship/ship';
-import { PlayerStats, CardObject, Player } from '../src/types/types';
-import { resMap } from '../src/constants/resourceNames';
-import { useState, useEffect } from 'react';
-import GameInstance from '../src/utils/gameInstance';
+
+// Constants
+import { resMap } from '../src/constants';
+
+// Styles
+import styles from '../styles/Home.module.css'
+
+// Types
+import { PlayerStats, CardObject, Player } from '../src/types';
+
+// Utilities
+import { GameInstance } from '../src/utils';
 
 const Home: NextPage = () => {
 

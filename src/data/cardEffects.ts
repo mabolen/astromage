@@ -1,4 +1,4 @@
-import { CardPlayerStats } from "../types/types"
+import { CardPlayerStats } from "../types"
 
 const minimumValue = (p: CardPlayerStats, t: keyof CardPlayerStats) => {
     if (t === 'materialProd' || t === 'energyProd' || t === 'ammunitionProd') {

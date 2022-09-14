@@ -1,8 +1,14 @@
-import styles from './card.module.css'
+// Packages
 import Image from 'next/image'
-import { PlayerStats, CardObject } from '../../types/types'
-import { cardTypeIcons } from '../../constants/cardTypes'
-import { resMap } from '../../constants/resourceNames'
+
+// Constants
+import { cardTypeIcons, resMap } from '../../constants'
+
+// Styles
+import styles from './card.module.css'
+
+// Types
+import { PlayerStats, CardObject } from '../../types'
 
 export type Props = {
     card: CardObject
