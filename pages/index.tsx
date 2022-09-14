@@ -83,7 +83,7 @@ const Home: NextPage = () => {
             <Ship player='player1' stats={player1.stats} statusEffects={player1.statusEffects}></Ship>
           </div>
           <div className={styles.playedCardsDiv}>
-            {gameState.turn}
+            Player {gameState.turn}&apos;s Turn
           </div>
           <div className={styles.gamePlayDiv}></div>
           <div className={styles.playerTwoDiv}>
