@@ -12,9 +12,11 @@ export type Props = {
 }
 
 const Ship = ({ player, stats, statusEffects }: Props) => {
+    const name = player === 'player1' ? 'Player 1' : 'Player 2'
 
     return (
         <div className={styles.ship}>
+            <span className={styles.playerName}>{name}</span>
             <span>Health: {stats.health}</span>
             <span>Hull: {stats.hull}</span>
             <Image width={200} height={200} alt={`${name} Ship`} src={player === 'player2' ? ship2 : ship}></Image>
