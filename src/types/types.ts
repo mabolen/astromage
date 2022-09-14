@@ -60,6 +60,8 @@ export interface ResProdMap {
 }
 
 //Player
+export type PlayerName = 'player1' | 'player2'
+
 export interface PlayerStats {
     [key: string]: number
     material: number
