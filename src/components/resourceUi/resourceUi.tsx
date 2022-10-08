@@ -21,7 +21,7 @@ export type CardProps = {
 
 const ResourceCard = ({ amount, productionAmount, type }: CardProps) => {
     return (
-        <div className={`${styles.resourceDiv} ${styles.defense}`}>
+        <div className={`${styles.resourceDiv} ${styles[type]}`}>
             <div className={styles.imageDiv}>
                 <div className={styles.replenishCount}><b>{productionAmount}</b></div>
                 <Image width={64} height={64} alt={`${type} icon`} src={cardTypeIcons[type]}></Image>
