@@ -15,24 +15,31 @@ export interface ShipObject {
 
 //CARDS
 export interface CardOther {
-    playagain?: boolean;
+    playagain?: boolean
     drawDiscardPlayagain?: boolean
     undiscardable?: boolean
+    status?: string
 }
 
 export type CardType = 'defense' | 'offense' | 'power'
 
 export interface CardObject {
     name: string
-    description?: string
+    description: string
     type: CardType
     cost: number
     rarity: number
     other?: CardOther
     actions: (p: CardPlayerStats, o: CardPlayerStats) => void
+    status?: (s: StatusEffects) => void
 }
 
 export type CardPlayerStats = PlayerStats
+
+export interface ActiveCard {
+    card: CardObject
+    id: string
+}
 
 // RESOURCES
 export interface Resource {
@@ -80,18 +87,23 @@ export interface PlayerStats {
     stats: PlayerStats
     hand: CardObject[]
     deck: CardObject[]
-    statusEffects?: StatusEffects
+    statusEffects: StatusEffects
   }
 
   export interface StatusEffects {
-    [key: string]: boolean
-    fire: boolean
-    corrosion: boolean
-    healing: boolean
-    repairing: boolean
-    noPower: boolean
-    noDefense: boolean
-    noOffense: boolean
+    [key: string]: Status
+    fire: Status
+    corrosion: Status
+    healing: Status
+    repairing: Status
+    noPower: Status
+    noDefense: Status
+    noOffense: Status
+  }
+
+  export interface Status {
+    active: boolean
+    time: number
   }
 
 export default module

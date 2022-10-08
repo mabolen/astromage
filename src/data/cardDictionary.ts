@@ -1,5 +1,5 @@
 import { CardObject, CardPlayerStats } from '../types'
-import { set, change, damage } from './cardEffects'
+import { set, change, damage, status } from './cardEffects'
 
 export const defenseCards: CardObject[] = [
     {
@@ -248,6 +248,19 @@ export const offenseCards: CardObject[] = [
         actions: (p, o) => {
             damage(o, 8)
             change(p, 'energy', -4)
+        }
+    },
+    {
+        name: 'Incinerate',
+        description: '5 damage, Fire x3',
+        type: 'offense',
+        cost: 5,
+        rarity: 3,
+        actions: (p, o) => {
+            damage(o, 5)
+        },
+        status: (s) => {
+            status(s, 'fire', true, 3)
         }
     },
     {
