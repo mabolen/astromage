@@ -16,12 +16,12 @@ import { resMap } from '../src/constants'
 import styles from '../styles/Home.module.css'
 
 // Types
-import { PlayerStats, CardObject, Player, ActiveCard } from '../src/types';
+import { PlayerStats, CardObject, Player } from '../src/types';
 
 // Utilities
 import { GameInstance } from '../src/utils';
 import { OpponentAI } from '../src/opponent/opponent-ai';
-import { cardPlayTiming, Animator } from '../src/utils/animations'
+import { Animator } from '../src/utils/animations'
 
 const Home: NextPage = () => {
 
@@ -29,7 +29,7 @@ const Home: NextPage = () => {
   const animator = new Animator()
   const opponentAI = new OpponentAI()
   const [gameState, updateGameState] = useState(gameInstance.initialInstance)
-  const [activeCards, setActiveCards] = useState<ActiveCard[]>([])
+  const [activeCards, setActiveCards] = useState<number | null>(null)
   const [player1, updatePlayer1] = useState(gameInstance.player)
   const [player2, updatePlayer2] = useState(gameInstance.player)
 
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
     return opponent.health <= 0 || resourceWin
   }
 
-  useEffect((): void => {
+  const checkWin = () => {
     if (winCondition(player1.stats, player2.stats)) {
       console.log('Player 1 wins!')
       updateGameState({ ...gameState, started: false, win: true, winner: 'Player 1' })
@@ -47,10 +47,10 @@ const Home: NextPage = () => {
       console.log('Player 2 wins!')
       updateGameState({ ...gameState, started: false, win: true, winner: 'Player 2' })
     }
-  }, [player1, player2])
+  }
 
   useEffect((): void => {
-    if (gameState.turn === 2) {
+    if (gameState.turn === 2 && !gameState.win) {
       opponentRound()
     }
   }, [gameState.turn])
@@ -61,54 +61,51 @@ const Home: NextPage = () => {
     updateGameState(gameInstance.newGame())
   }
 
-  const playCard = async (c: CardObject, p: Player, o: Player, index: number, id: string) => {
-    const active: ActiveCard = {
-      card: c,
-      id: id
-    }
-    setActiveCards([...activeCards, active])
-    animator.animatePlay(id)
-    setTimeout(() => {
-      gameInstance.playCard(c, p, o, index)
-      gameState.turn === 2 && setActiveCards([...activeCards.slice(0, activeCards.length - 1)])
-      animator.animateDraw(id)
-      endRound(player1.stats, player2.stats)
-    }, cardPlayTiming.duration * 2)
+  const playCard = async (c: CardObject, p: Player, o: Player, i: number) => {
+    setActiveCards(i)
+    await gameInstance.playCard(c, p, o, i)
+    updateStats()
+    await gameInstance.discardCard(p, i)
+    updateStats()
+    gameState.turn === 2 && setActiveCards(null)
+    await animator.animateDraw(`card-${i}`)
+    gameState.turn === 1 && setActiveCards(null)
+    endRound(p.stats)
   }
 
-  const handleDiscard = (p: Player, index: number, id: string, e?: any): void => {
+  const handleDiscard = async (p: Player, i: number, e?: any) => {
     e && e.preventDefault()
-    if (activeCards.length < 1) {
-      animator.animateDiscard(id)
-      setTimeout(() => {
-        gameInstance.discardCard(p, index)
-        endRound(player1.stats, player2.stats)
-      }, animator.animateTime)
-    }
+    setActiveCards(i)
+    await gameInstance.discardCard(p, i)
+    updateStats()
+    await animator.animateDraw(`card-${i}`)
+    setActiveCards(null)
+    endRound(p.stats)
   }
 
-  const endRound = async (p1: PlayerStats, p2: PlayerStats) => {
-    gameInstance.updateResources(gameState.turn === 1 ? p1 : p2)
-    updatePlayer1({ ...player1, stats: p1 })
-    updatePlayer2({ ...player2, stats: p2 })
-    setTimeout( () => {
-      updateGameState({ ...gameState, turn : gameState.turn === 1 ? 2: 1 })
-      setActiveCards([...activeCards.slice(0, activeCards.length - 1)])
-    }, animator.animateTime)
+  const updateStats = () => {
+    updatePlayer1({ ...player1 })
+    updatePlayer2({ ...player2 })
+  }
+
+  const endRound = (stats: PlayerStats) => {
+    gameInstance.updateResources(stats)
+    checkWin()
+    updateGameState({ ...gameState, turn : gameState.turn === 1 ? 2: 1 })
   }
 
   const opponentRound = () => {
-    const result = opponentAI.playTurn(player2)
-    if (result.action === 'play') {
-      playCard(player2.hand[result.index], player2, player1, result.index, `card-${result.index}`)
+    const { action, index } = opponentAI.playTurn(player2)
+    if (action === 'play') {
+      playCard(player2.hand[index], player2, player1, index)
     } else {
-      handleDiscard(player2, result.index, `card-${result.index}`)
+      handleDiscard(player2, index)
     }
   }
 
   const cards = (p: Player, o: Player, t: number) => p.hand.map((c: CardObject, i: number) => {
     return (
-      <div className='card-container' key={i} onClick={(e) => (c.cost <= p.stats[resMap[c.type]] && activeCards.length < 1) && playCard(c, p, o, i, `card-${i}`)} onContextMenu={(e) => handleDiscard(p, i, `card-${i}`, e)}>
+      <div className='card-container' key={i} onClick={(e) => (c.cost <= p.stats[resMap[c.type]] && activeCards !== i) && playCard(c, p, o, i)} onContextMenu={(e) => handleDiscard(p, i, e)}>
         <Card card={c} stats={p.stats} turn={t} cardNum={i} active={activeCards}></Card>
       </div>
     )

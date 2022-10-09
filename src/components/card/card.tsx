@@ -18,20 +18,20 @@ export type Props = {
     stats: PlayerStats
     turn: number
     cardNum: number
-    active: ActiveCard[]
+    active: number | null
 }
 
 const Card = ({ card, stats, turn, cardNum, active }: Props) => {
     
     const img = cardTypeIcons[card.type]
-    const isActive = active.find(c => c.id === `card-${cardNum}`)
-    const disabled = card.cost > stats[resMap[card.type]] || (!isActive && active.length > 0)
+    const isActive = active === cardNum
+    const disabled = (!isActive && active) || card.cost > stats[resMap[card.type]]
 
     return (
         <>
             <div id={`card-${cardNum}`} className={`${styles[`${card.type}`]} ${styles.cardBody} ${(!disabled && !isActive && turn !== 2) && styles.hoverEffect}`}>
                 {(turn === 2 && !isActive) && <div className='card-back'></div>}
-                <div hidden={!disabled} className={styles.disabled}></div>
+                <div hidden={!disabled || isActive} className={styles.disabled}></div>
                 <span className={styles.titleSpan}>{card.name}</span>
                 <div className={styles.imgDiv}>
     

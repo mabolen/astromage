@@ -37,7 +37,7 @@ export const animatePlay = (id: string) => {
         xPos = div.getBoundingClientRect().x
         yPos = div.getBoundingClientRect().y
         div.style.transform += `translate(${(x + deck.clientWidth * 1.2) - xPos}px,${y - yPos}px)`
-    }, cardPlayTiming. duration)
+    }, cardPlayTiming.duration)
 }
 
 export const animateDraw = (id: string) => {
@@ -50,54 +50,49 @@ export class Animator {
     isAnimating: boolean = false
     animateTime: number = 1500
 
-    animatePlay(id: string) {
+    async animatePlay(id: string) {
         this.isAnimating = true
         const div = document.getElementById(id)!
         let xPos = div.getBoundingClientRect().x
-        let yPos = div.getBoundingClientRect().y
         const deck = document.getElementById('card-deck')!
-        const {x, y} = deck.getBoundingClientRect()
     
         const topCenter = window.innerHeight / 2 - div.clientHeight / 2
         const leftCenter = window.innerWidth / 2 - (xPos + (div.clientWidth / 2))
         
         div.style.transform = `translate(${leftCenter}px,-${topCenter}px)`
-    
-        setTimeout(() => {
-            xPos = div.getBoundingClientRect().x
-            yPos = div.getBoundingClientRect().y
-            div.style.transform += `translate(${(x + deck.clientWidth * 1.2) - xPos}px,${y - yPos}px)`
-            this.endAnimate()
-        }, this.animateTime)
+
+        await this.animateTimer(this.animateTime)
     }
 
-    animateDraw(id: string) {
+    async animateDraw(id: string) {
         this.isAnimating = true
         const div = document.getElementById(id)!
         div.style.transform = 'translate(0,0)'
-        this.endAnimate()
+        await this.animateTimer(this.animateTime)
+        this.isAnimating = false
     }
 
-    animateDiscard(id: string) {
+    async animateDiscard(id: string) {
         this.isAnimating = true
         const div = document.getElementById(id)!
-        let xPos = div.getBoundingClientRect().x
-        let yPos = div.getBoundingClientRect().y
+        const xPos = div.getBoundingClientRect().x
+        const yPos = div.getBoundingClientRect().y
         const deck = document.getElementById('card-deck')!
         const {x, y} = deck.getBoundingClientRect()
         
-        div.style.transform = `translate(${(x + deck.clientWidth * 1.2) - xPos}px,${y - yPos}px)`
-        
-        setTimeout(() => {
-            div.style.transform = 'translate(0,0)'
-            this.endAnimate()
-        }, this.animateTime)
+        div.style.transform += `translate(${(x + deck.clientWidth * 1.2) - xPos}px,${y - yPos}px)`
+
+        await this.animateTimer(this.animateTime)
+        this.isAnimating = false
     }
 
-    endAnimate() {
+    async endAnimate() {
         setTimeout(() => {
             this.isAnimating = false
         }, this.animateTime)
     }
 
+    animateTimer(time: number) {
+        return new Promise(resolve => setTimeout(resolve, time))
+    }
 }

@@ -7,6 +7,9 @@ import { defenseCards, powerCards, offenseCards } from '../data'
 // Types
 import { CardObject, CardPlayerStats, PlayerStats, GameInterface, Player } from '../types'
 
+// Utilities
+import { Animator } from './animations'
+
 export class GameInstance {
     deck = [defenseCards, offenseCards, powerCards].flat()
 
@@ -62,6 +65,8 @@ export class GameInstance {
         }
     }
 
+    animator = new Animator()
+
     newGame(): GameInterface {
         const initialState: GameInterface = {
             started: true,
@@ -107,46 +112,14 @@ export class GameInstance {
         return hand
     }
 
-    playCard(c: CardObject, p: Player, o: Player, index: number): void {
+    async playCard(c: CardObject, p: Player, o: Player, index: number) {
+        await this.animator.animatePlay(`card-${index}`)
         c.actions(p.stats, o.stats)
         p.stats[resMap[c.type]] -= c.cost
-        this.discardCard(p, index)
     }
 
-    discardCard(player: Player, index: number) {
-        player.hand.splice(index, 1, this.drawCard(player.deck))
-    }
-
-    drawCard(deck: CardObject[]) {
-        let rarity = 0
-        const random: number = Math.round(Math.random() * 69)
-        switch (true) {
-            case random <= 30:
-                rarity = 1
-                break
-            case random <= 50:
-                rarity = 2
-                break
-            case random <= 60:
-                rarity = 3
-                break
-            case random <= 65:
-                rarity = 4
-                break
-            default:
-                rarity = 5
-        }
-        const filteredCards = deck.filter(c => c.rarity === rarity)
-        return filteredCards[Math.floor(Math.random() * filteredCards.length)]
-    }
-}
-
-export class PlayerActions {
-    playCard(card: CardObject, p: CardPlayerStats, o: CardPlayerStats): void {
-        card.actions(p, o)
-    }
-
-    discardCard(player: Player, index: number) {
+    async discardCard(player: Player, index: number) {
+        await this.animator.animateDiscard(`card-${index}`)
         player.hand.splice(index, 1, this.drawCard(player.deck))
     }
 
