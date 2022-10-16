@@ -25,9 +25,15 @@
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
 }
-.imgDiv {
+.imgContainerDiv {
     width: 160px;
     height: 160px;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.img {
+    width: 160px;
+    height: 160px;
+    object-fit: fill;
     background-color: rgba(0, 0, 0, 0.6);
 }
 .titleSpan {
