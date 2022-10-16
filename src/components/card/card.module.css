@@ -29,12 +29,20 @@
     width: 160px;
     height: 160px;
     background-color: rgba(0, 0, 0, 0.6);
+    border-top-left-radius: 100%266%;
+    border-top-right-radius: 100%266%; 
+    border-bottom-left-radius: 100%266%;
+    border-bottom-right-radius: 100%266%;
 }
 .img {
     width: 160px;
     height: 160px;
     object-fit: fill;
     background-color: rgba(0, 0, 0, 0.6);
+    border-top-left-radius: 100%266%;
+    border-top-right-radius: 100%266%; 
+    border-bottom-left-radius: 100%266%;
+    border-bottom-right-radius: 100%266%;
 }
 .titleSpan {
     height: 42px;
