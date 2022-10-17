@@ -13,8 +13,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 # ROADMAP
 
 ### What needs to happen: 
-- add animations and general gameplay pacing
-- build opponent AI, configure oppenent turn visual changes (hide their hand)
+- finish animations and general gameplay pacing
+- finish build opponent AI
 - complete card deck
 - sound effects
 - configurable gameplay settings (win conditions, difficulty?)
@@ -38,4 +38,6 @@ Card actions/effects include:
   change(player, target, amount) // same as set but adds or subtracts amount from target
   damage(player, amount) // same as change but strictly affects hull then health
 ```
+### Generating card images
+Please see https://github.com/mabolen/astromage/pull/12#issue-1410318325
 
