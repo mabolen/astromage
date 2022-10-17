@@ -12,6 +12,7 @@ import styles from './card.module.css'
 
 // Types
 import { PlayerStats, CardObject, ActiveCard } from '../../types'
+import { imageFilename } from './imageFilename'
 
 export type Props = {
     card: CardObject
@@ -33,8 +34,8 @@ const Card = ({ card, stats, turn, cardNum, active }: Props) => {
                 {(turn === 2 && !isActive) && <div className='card-back'></div>}
                 <div hidden={!disabled || isActive} className={styles.disabled}></div>
                 <span className={styles.titleSpan}>{card.name}</span>
-                <div className={styles.imgDiv}>
-    
+                <div className={styles.imgContainerDiv}>
+                    <img className={styles.img} src={imageFilename(card.name)} />
                 </div>
                 <span className={styles.textSpan}>{card.description}</span>
                 <span className={styles.cardCost}>{card.cost}</span>
