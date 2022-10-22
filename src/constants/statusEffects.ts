@@ -10,6 +10,9 @@ import noOffense from '../../public/images/offenseIcon.png'
 import noPower from '../../public/images/powerIcon.png'
 import repairing from '../../public/images/repairIcon.png'
 
+// Types
+import { StatusActions, StatusAction } from '../types'
+
 interface StatusIconsInterface {
     [key: string]: StaticImageData
     corrosion: StaticImageData
@@ -29,4 +32,42 @@ export const statusIcons: StatusIconsInterface = {
     noOffense,
     noPower,
     repairing,
+}
+
+export const statusActions: StatusActions = {
+    corrosion: {
+        target: 'hull',
+        effect: 'change',
+        amount: -2
+    },
+    healing: {
+        target: 'health',
+        effect: 'change',
+        amount: 2
+    },
+    fire: {
+        target: 'health',
+        effect: 'change',
+        amount: -2
+    },
+    noDefense: {
+        target: 'materialProd',
+        effect: 'set',
+        amount: 2
+    },
+    noOffense: {
+        target: 'ammunitionProd',
+        effect: 'set',
+        amount: 2
+    },
+    noPower: {
+        target: 'energyProd',
+        effect: 'set',
+        amount: 2
+    },
+    repairing: {
+        target: 'hull',
+        effect: 'change',
+        amount: 2
+    },
 }

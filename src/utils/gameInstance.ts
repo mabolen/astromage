@@ -1,11 +1,11 @@
 // Constants
-import { resProdMap, resMap } from '../constants'
+import { resProdMap, resMap, statusActions  } from '../constants'
 
 // Data
-import { defenseCards, powerCards, offenseCards } from '../data'
+import { defenseCards, powerCards, offenseCards, set, change, damage } from '../data'
 
 // Types
-import { CardObject, CardPlayerStats, PlayerStats, GameInterface, Player } from '../types'
+import { CardObject, PlayerStats, GameInterface, Player, StatusAction, Status, StatusEffects } from '../types'
 
 // Utilities
 import { Animator } from './animations'
@@ -18,51 +18,6 @@ export class GameInstance {
         turn: 1,
         win: false,
         winner: ''
-    }
-
-    player: Player = {
-        stats: {
-            material: 5,
-            energy: 5,
-            ammunition: 5,
-            materialProd: 2,
-            energyProd: 2,
-            ammunitionProd: 2,
-            health: 20,
-            hull: 10
-        },
-        hand: [],
-        deck: this.deck,
-        statusEffects: {
-            fire: {
-                active: false,
-                time:0
-            },
-            corrosion: {
-                active: false,
-                time:0
-            },
-            healing: {
-                active: false,
-                time:0
-            },
-            repairing: {
-                active: false,
-                time:0
-            },
-            noPower: {
-                active: false,
-                time:0
-            },
-            noDefense: {
-                active: false,
-                time:0
-            },
-            noOffense: {
-                active: false,
-                time:0
-            }
-        }
     }
 
     animator = new Animator()
@@ -89,12 +44,50 @@ export class GameInstance {
             health: 20,
             hull: 10
         }
+
+        const statusEffects: StatusEffects = {
+            fire: {
+                name: 'fire',
+                time: 0,
+                action: statusActions.fire
+            },
+            corrosion: {
+                name: 'corrosion',
+                time: 0,
+                action: statusActions.corrosion
+            },
+            healing: {
+                name: 'healing',
+                time: 0,
+                action: statusActions.healing
+            },
+            repairing: {
+                name: 'repairing',
+                time: 0,
+                action: statusActions.repairing
+            },
+            noPower: {
+                name: 'noPower',
+                time: 0,
+                action: statusActions.noPower
+            },
+            noDefense: {
+                name: 'noDefense',
+                time: 0,
+                action: statusActions.noDefense
+            },
+            noOffense: {
+                name: 'noOffense',
+                time: 0,
+                action: statusActions.noOffense
+            }
+        }
         
         return {
             stats: initialStats,
             hand: this.drawHand(this.deck),
             deck: this.deck,
-            statusEffects: this.player.statusEffects
+            statusEffects: statusEffects
         }
     }
 
@@ -114,7 +107,7 @@ export class GameInstance {
 
     async playCard(c: CardObject, p: Player, o: Player, index: number) {
         await this.animator.animatePlay(`card-${index}`)
-        c.actions(p.stats, o.stats)
+        c.actions(p, o)
         p.stats[resMap[c.type]] -= c.cost
     }
 
@@ -144,5 +137,30 @@ export class GameInstance {
         }
         const filteredCards = deck.filter(c => c.rarity === rarity)
         return filteredCards[Math.floor(Math.random() * filteredCards.length)]
+    }
+
+    statusHandler(p: Player) {
+        Object.keys(p.statusEffects).forEach(e => {
+            p.statusEffects[e]
+            if (p.statusEffects[e].time > 0) {
+                this.statusEffectAction(p, p.statusEffects[e])
+            }
+        })
+    }
+
+    statusEffectAction(p: Player, s: Status) {
+        const { name, time, action } = s
+        const { target, effect, amount } = action
+
+        const actionMap: any = {
+            set: () => set(p.stats, target, amount),
+            change: () => change(p.stats, target, amount),
+            damage: () => damage(p.stats, amount)
+        }
+
+        if (time > 0) {
+            actionMap[effect]()
+            p.statusEffects[name].time--
+        }
     }
 }

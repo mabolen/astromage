@@ -11,6 +11,7 @@ const imageMap: { [cardName in string]: string } = {
   "Ghost Ship Salvage": "ghost_ship_salvage.png",
   "Unionize Workers": "unionize_workers.png",
   "Sabotage Mining": "sabotage_mining.png",
+  "Corrosive Saboteur": "corrosive_saboteur.png",
   "Space Welders": "space_welders.png",
   "Matter Accumulation": "matter_accumulation.png",
   "Arclight Torches": "arclight_torches.png",

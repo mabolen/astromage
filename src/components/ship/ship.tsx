@@ -30,7 +30,7 @@ const Ship = ({ player, stats, statusEffects, turn }: Props) => {
             <Image width={200} height={200} alt={`${name} Ship`} src={player === 'player2' ? ship2 : ship}></Image>
             <div className={styles.statusEffects}>
                 {statusEffects && Object.keys(statusEffects).map((e) =>
-                    statusEffects[e].active && <div key={e} className={styles.statusIcon}><Image alt={`Status Effect ${e}`} src={statusIcons[e]} width={24} height={24}></Image></div>
+                    statusEffects[e].time > 0 && <div key={e} className={styles.statusIcon}><Image alt={`Status Effect ${e}`} src={statusIcons[e]} width={24} height={24}></Image></div>
                 )}
             </div>
         </div>

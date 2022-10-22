@@ -18,7 +18,6 @@ export interface CardOther {
     playagain?: boolean
     drawDiscardPlayagain?: boolean
     undiscardable?: boolean
-    status?: string
 }
 
 export type CardType = 'defense' | 'offense' | 'power'
@@ -30,8 +29,7 @@ export interface CardObject {
     cost: number
     rarity: number
     other?: CardOther
-    actions: (p: CardPlayerStats, o: CardPlayerStats) => void
-    status?: (s: StatusEffects) => void
+    actions: (p: Player, o: Player) => void
 }
 
 export type CardPlayerStats = PlayerStats
@@ -102,8 +100,26 @@ export interface PlayerStats {
   }
 
   export interface Status {
-    active: boolean
+    name: string
     time: number
+    action: StatusAction
   }
+
+  export interface StatusAction {
+    target: string
+    effect: string
+    amount: number
+}
+
+export interface StatusActions {
+    [key: string]: StatusAction
+    corrosion: StatusAction
+    healing: StatusAction
+    fire: StatusAction
+    noDefense: StatusAction
+    noOffense: StatusAction
+    noPower: StatusAction
+    repairing: StatusAction
+}
 
 export default module

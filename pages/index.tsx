@@ -30,29 +30,33 @@ const Home: NextPage = () => {
   const opponentAI = new OpponentAI()
   const [gameState, updateGameState] = useState(gameInstance.initialInstance)
   const [activeCards, setActiveCards] = useState<number | null>(null)
-  const [player1, updatePlayer1] = useState(gameInstance.player)
-  const [player2, updatePlayer2] = useState(gameInstance.player)
+  const [player1, updatePlayer1] = useState(gameInstance.newPlayer())
+  const [player2, updatePlayer2] = useState(gameInstance.newPlayer())
 
-  const winCondition = (player: PlayerStats, opponent: PlayerStats): boolean => {
-    const resourceWin = (player.energy || player.ammunition || player.material) >= 50
+  const winCondition = async (player: PlayerStats, opponent: PlayerStats) => {
+    const resourceWin = (player.energy || player.ammunition || player.material || player.health) >= 50
     return opponent.health <= 0 || resourceWin
   }
 
-  const checkWin = () => {
-    if (winCondition(player1.stats, player2.stats)) {
+  const checkWin = async () => {
+    if (await winCondition(player1.stats, player2.stats)) {
       console.log('Player 1 wins!')
-      updateGameState({ ...gameState, started: false, win: true, winner: 'Player 1' })
+      gameState.started = false; gameState.win = true; gameState.winner = 'Player 1'
+      updateGameState({ ...gameState })
     }
-    if (winCondition(player2.stats, player1.stats)) {
+    if (await winCondition(player2.stats, player1.stats)) {
       console.log('Player 2 wins!')
-      updateGameState({ ...gameState, started: false, win: true, winner: 'Player 2' })
+      gameState.started = false; gameState.win = true; gameState.winner = 'Player 2'
+      updateGameState({ ...gameState })
     }
   }
 
-  useEffect((): void => {
-    if (gameState.turn === 2 && !gameState.win) {
-      opponentRound()
-    }
+  useEffect(() => {
+    checkWin().then(() => {
+      if (gameState.turn === 2 && !gameState.win) {
+        opponentRound()
+      }
+    })
   }, [gameState.turn])
 
   const startGame = (): void => {
@@ -70,7 +74,7 @@ const Home: NextPage = () => {
     gameState.turn === 2 && setActiveCards(null)
     await animator.animateDraw(`card-${i}`)
     gameState.turn === 1 && setActiveCards(null)
-    endRound(p.stats)
+    endRound(p)
   }
 
   const handleDiscard = async (p: Player, i: number, e?: any) => {
@@ -80,7 +84,7 @@ const Home: NextPage = () => {
     updateStats()
     await animator.animateDraw(`card-${i}`)
     setActiveCards(null)
-    endRound(p.stats)
+    endRound(p)
   }
 
   const updateStats = () => {
@@ -88,9 +92,9 @@ const Home: NextPage = () => {
     updatePlayer2({ ...player2 })
   }
 
-  const endRound = (stats: PlayerStats) => {
-    gameInstance.updateResources(stats)
-    checkWin()
+  const endRound = async (p: Player) => {
+    gameInstance.statusHandler(p)
+    gameInstance.updateResources(p.stats)
     updateGameState({ ...gameState, turn : gameState.turn === 1 ? 2: 1 })
   }
 
@@ -132,7 +136,6 @@ const Home: NextPage = () => {
             <div id='card-deck' className={styles.cardDeck}>
               <div className={styles.cardDeck}><div className={styles.cardDeck}></div></div>
             </div>
-            {/* Player {gameState.turn}&apos;s Turn */}
           </div>
           <div className={styles.gamePlayDiv}></div>
           <div className={styles.playerTwoDiv}>

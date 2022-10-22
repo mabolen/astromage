@@ -42,9 +42,7 @@ export const damage = (
 export const status = (
     playerStatus: StatusEffects,
     target: keyof StatusEffects,
-    active: boolean,
-    time: number
+    duration: number
 ) => {
-    playerStatus[target].active = active
-    playerStatus[target].time = time
+    playerStatus[target].time = duration
 }
