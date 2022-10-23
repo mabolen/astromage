@@ -30,14 +30,8 @@ a {
   position: relative;
 }
 .card-back {
-  position: absolute;
-  width: 180px;
-  height: 290px;
-  border: 1px solid white;
-  border-radius: 2px;
   overflow: hidden;
   background: center no-repeat url('../public/images/card-back.jpg');
-  z-index: 10;
 }
 @media (prefers-color-scheme: dark) {
   html {
