@@ -1,3 +1,5 @@
+import { Player } from "../types"
+
 export const cardPlayTiming = {
     duration: 1500
 }
@@ -86,10 +88,26 @@ export class Animator {
         this.isAnimating = false
     }
 
-    async endAnimate() {
-        setTimeout(() => {
-            this.isAnimating = false
-        }, this.animateTime)
+    async animateEffect(player: Player, playerRef: any) {
+        const damDiv = document.getElementById(`${player.name}-damage-effects`)
+        const posDiv = document.getElementById(`${player.name}-positive-effects`)
+    
+        const keyFrames = [
+            { opacity: '0' },
+            { opacity: '1' },
+            { opacity: '0.5' },
+            { opacity: '0.2' },
+            { opacity: '0' }
+        ];
+
+        if (player.stats.hull < playerRef.current.hull || player.stats.health < playerRef.current.health) {
+            damDiv && damDiv.animate(keyFrames, this.animateTime)
+            await this.animateTimer(this.animateTime / 2)
+        }
+        if (player.stats.hull > playerRef.current.hull || player.stats.health > playerRef.current.health) {
+            posDiv && posDiv.animate(keyFrames, this.animateTime)
+            await this.animateTimer(this.animateTime / 2)
+        }
     }
 
     animateTimer(time: number) {

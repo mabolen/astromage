@@ -51,7 +51,7 @@
 }
 .textSpan {
     height: 15%;
-    overflow-y: scroll;
+    overflow-y: auto;
     justify-content: center;
     align-items: center;
     font-size: 14px;
@@ -66,14 +66,12 @@
 .cardCost {
     line-height: 1em;
 }
-.cardIcon {
-}
 .defense {
-    background-color: rgba(51, 51, 51, 0.8);
+    background-color: rgba(51, 51, 51, 1);
 }
 .power {
-    background-color: rgba(17, 17, 153, 0.8);
+    background-color: rgba(17, 17, 153, 1);
 }
 .offense {
-    background-color: rgba(153, 17, 17, 0.8);
+    background-color: rgba(153, 17, 17, 1);
 }

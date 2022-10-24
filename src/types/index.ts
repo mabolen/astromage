@@ -85,7 +85,8 @@ export interface PlayerStats {
     stats: PlayerStats
     hand: CardObject[]
     deck: CardObject[]
-    statusEffects: StatusEffects
+    statusEffects: StatusEffects,
+    name: string
   }
 
   export interface StatusEffects {

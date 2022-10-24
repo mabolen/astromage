@@ -3,8 +3,10 @@ import Image from 'next/image'
 
 // Constants
 import { statusIcons } from '../../constants'
-import ship from '../../../public/images/ship.png'
-import ship2 from '../../../public/images/ship2.png'
+import ship_1 from '../../../public/images/ship_1.png'
+import red_glow from '../../../public/images/effects/redGlow.png'
+import blue_glow from '../../../public/images/effects/blue_glow.png'
+import ship_2_flipped from '../../../public/images/ship_2_flipped.png'
 
 // Styles
 import styles from './ship.module.css'
@@ -25,9 +27,21 @@ const Ship = ({ player, stats, statusEffects, turn }: Props) => {
     return (
         <div className={styles.ship}>
             <span className={styles.playerName}>{name}</span>
-            <span>Health: {stats.health}</span>
-            <span>Hull: {stats.hull}</span>
-            <Image width={200} height={200} alt={`${name} Ship`} src={player === 'player2' ? ship2 : ship}></Image>
+            <div className={styles.shipImageDiv}>
+                <Image width={200} height={150} alt={`${name} Ship`} src={player === 'player2' ? ship_2_flipped : ship_1}></Image>
+                <div id={`${player}-effects`} className={styles.effectsContainer}>
+                    <div id={`${player}-damage-effects`} className={styles.effect}>
+                        <Image width={300} height={300} alt={'red glow'} src={red_glow}></Image>
+                    </div>
+                    <div id={`${player}-positive-effects`} className={styles.effect}>
+                        <Image width={100} height={100} alt={'red glow'} src={blue_glow}></Image>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.shipUI}>
+                <span>Health: {stats.health} </span>
+                <span>Hull: {stats.hull}</span>
+            </div>
             <div className={styles.statusEffects}>
                 {statusEffects && Object.keys(statusEffects).map((e) =>
                     statusEffects[e].time > 0 && <div key={e} className={styles.statusIcon}><Image alt={`Status Effect ${e}`} src={statusIcons[e]} width={24} height={24}></Image></div>

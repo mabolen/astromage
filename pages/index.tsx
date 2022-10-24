@@ -1,8 +1,7 @@
 // Packages
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useState, useEffect } from 'react';
-
+import { useState, useEffect, useRef } from 'react';
 
 // Components
 import Card from '../src/components/card/card';
@@ -24,7 +23,6 @@ import { OpponentAI } from '../src/opponent/opponent-ai';
 import { Animator } from '../src/utils/animations'
 
 const Home: NextPage = () => {
-
   const gameInstance = new GameInstance()
   const animator = new Animator()
   const opponentAI = new OpponentAI()
@@ -59,9 +57,19 @@ const Home: NextPage = () => {
     })
   }, [gameState.turn])
 
+  const player1Ref = useRef({hull: player1.stats.hull, health: player1.stats.health})
+  const player2Ref = useRef({hull: player2.stats.hull, health: player2.stats.health})
+
+  useEffect(() => {
+    animator.animateEffect(player1, player1Ref)
+    animator.animateEffect(player2, player2Ref)
+    player1Ref.current = {hull: player1.stats.hull, health: player1.stats.health}
+    player2Ref.current = {hull: player2.stats.hull, health: player2.stats.health}
+  }, [player1.stats.hull, player2.stats.hull, player1.stats.health, player2.stats.health])
+
   const startGame = (): void => {
-    updatePlayer1(gameInstance.newPlayer())
-    updatePlayer2(gameInstance.newPlayer())
+    updatePlayer1({...gameInstance.newPlayer(), name: 'player1'})
+    updatePlayer2({...gameInstance.newPlayer(), name: 'player2'})
     updateGameState(gameInstance.newGame())
   }
 
@@ -109,7 +117,7 @@ const Home: NextPage = () => {
 
   const cards = (p: Player, o: Player, t: number) => p.hand.map((c: CardObject, i: number) => {
     return (
-      <div className='card-container' key={i} onClick={(e) => (c.cost <= p.stats[resMap[c.type]] && activeCards !== i) && playCard(c, p, o, i)} onContextMenu={(e) => handleDiscard(p, i, e)}>
+      <div className='card-container' key={i} onClick={(e) => (c.cost <= p.stats[resMap[c.type]] && activeCards !== i) && playCard(c, p, o, i)} onContextMenu={(e) => activeCards !== i && handleDiscard(p, i, e)}>
         <Card card={c} stats={p.stats} turn={t} cardNum={i} active={activeCards}></Card>
       </div>
     )

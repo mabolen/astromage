@@ -455,6 +455,16 @@ export const powerCards: CardObject[] = [
         }
     },
     {
+        name: 'Healing Droids',
+        description: 'Healing x3',
+        type: 'power',
+        cost: 4,
+        rarity: 2,
+        actions: (p, o) => {
+            status(p.statusEffects, 'healing', 3)
+        }
+    },
+    {
         name: 'Android Hospital',
         description: 'Ship Health +10',
         type: 'power',

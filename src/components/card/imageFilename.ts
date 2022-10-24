@@ -47,6 +47,7 @@ const imageMap: { [cardName in string]: string } = {
   "Overload Reactor": "overload_reactor.png",
   "Life Support Systems": "life_support_systems.png",
   "Psy-Scout Prospecting": "psy_scout_prospecting.png",
+  "Healing Droids": "healing_droids.png",
   "Targeted Discharge": "targeted_discharge.png",
   "Android Hospital": "android_hospital.png",
   "Theseus System": "theseus_system.png",
