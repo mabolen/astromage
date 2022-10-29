@@ -17,7 +17,11 @@ export const resMap: ResourceMap = {
   offense: 'ammunition',
 } as const
 
-export const poNames = ['playerOneName', 'playerTwoName'] as const
+export const prodTypeMap = {
+  defense: 'materialProd',
+  power: 'energyProd',
+  offense: 'ammunitionProd',
+} as const
 
 export const allStatusNames = [
   'health',

@@ -31,7 +31,7 @@ const Card = ({ card, stats, turn, cardNum, active }: Props) => {
 
     return (
         <>
-            <div id={`card-${cardNum}`} className={`${styles[`${card.type}`]} ${styles.cardBody} ${disabled && turn === 1 && !isActive && styles.disabled} ${(!disabled && !isActive && turn !== 2) && styles.hoverEffect} ${cardBack && 'card-back'}`}>
+            <div id={`card-${cardNum}`} className={`${styles[`${card.type}`]} ${styles.cardBody} ${disabled && turn === 1 && !isActive && styles.disabled} ${(!disabled && !isActive && turn !== 2) && styles.hoverEffect} ${cardBack && 'card-back'} ${isActive && 'active-card'}`}>
                 {!cardBack && <>
                     <span className={styles.titleSpan}>{card.name}</span>
                     <div className={styles.imgContainerDiv}>

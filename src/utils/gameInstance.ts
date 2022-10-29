@@ -107,9 +107,7 @@ export class GameInstance {
     }
 
     async playCard(c: CardObject, p: Player, o: Player, index: number) {
-        console.log(c)
         await this.animator.animatePlay(`card-${index}`)
-        // c.type === 'offense' && await this.animator.animateDamage(o.name)
         c.actions(p, o)
         p.stats[resMap[c.type]] -= c.cost
     }

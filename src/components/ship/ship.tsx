@@ -34,7 +34,7 @@ const Ship = ({ player, stats, statusEffects, turn }: Props) => {
                         <Image width={300} height={300} alt={'red glow'} src={red_glow}></Image>
                     </div>
                     <div id={`${player}-positive-effects`} className={styles.effect}>
-                        <Image width={100} height={100} alt={'red glow'} src={blue_glow}></Image>
+                        <Image width={100} height={100} alt={'blue glow'} src={blue_glow}></Image>
                     </div>
                 </div>
             </div>

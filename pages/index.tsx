@@ -20,7 +20,7 @@ import { PlayerStats, CardObject, Player } from '../src/types';
 // Utilities
 import { GameInstance } from '../src/utils';
 import { OpponentAI } from '../src/opponent/opponent-ai';
-import { Animator } from '../src/utils/animations'
+import { Animator } from '../src/utils'
 
 const Home: NextPage = () => {
   const gameInstance = new GameInstance()
@@ -30,6 +30,8 @@ const Home: NextPage = () => {
   const [activeCards, setActiveCards] = useState<number | null>(null)
   const [player1, updatePlayer1] = useState(gameInstance.newPlayer())
   const [player2, updatePlayer2] = useState(gameInstance.newPlayer())
+  const [stats1, updateStats1] = useState(Object.values(player1.stats))
+  const [stats2, updateStats2] = useState(Object.values(player2.stats))
 
   const winCondition = async (player: PlayerStats, opponent: PlayerStats) => {
     const resourceWin = (player.energy || player.ammunition || player.material || player.health) >= 50
@@ -57,15 +59,17 @@ const Home: NextPage = () => {
     })
   }, [gameState.turn])
 
-  const player1Ref = useRef({hull: player1.stats.hull, health: player1.stats.health})
-  const player2Ref = useRef({hull: player2.stats.hull, health: player2.stats.health})
+  // Ref and useEffect hook for triggering effects
+  const player1Ref = useRef({...player1.stats})
+  const player2Ref = useRef({...player2.stats})
 
   useEffect(() => {
-    animator.animateEffect(player1, player1Ref)
-    animator.animateEffect(player2, player2Ref)
-    player1Ref.current = {hull: player1.stats.hull, health: player1.stats.health}
-    player2Ref.current = {hull: player2.stats.hull, health: player2.stats.health}
-  }, [player1.stats.hull, player2.stats.hull, player1.stats.health, player2.stats.health])
+    [{p: player1, r: player1Ref}, {p: player2, r: player2Ref}].forEach(el => {
+      animator.animateEffect(el.p, el.r)
+      animator.animateResourceCard(el.p, el.r)
+      el.r.current = {...el.p.stats}
+    })
+  }, [...stats1, ...stats2])
 
   const startGame = (): void => {
     updatePlayer1({...gameInstance.newPlayer(), name: 'player1'})
@@ -98,16 +102,19 @@ const Home: NextPage = () => {
   const updateStats = () => {
     updatePlayer1({ ...player1 })
     updatePlayer2({ ...player2 })
+    updateStats1(Object.values(player1.stats))
+    updateStats2(Object.values(player2.stats))
   }
 
   const endRound = async (p: Player) => {
     gameInstance.statusHandler(p)
     gameInstance.updateResources(p.stats)
+    updateStats()
     updateGameState({ ...gameState, turn : gameState.turn === 1 ? 2: 1 })
   }
 
   const opponentRound = () => {
-    const { action, index } = opponentAI.playTurn(player2)
+    const { action, index } = opponentAI.playTurn(player2, player1)
     if (action === 'play') {
       playCard(player2.hand[index], player2, player1, index)
     } else {
@@ -135,7 +142,7 @@ const Home: NextPage = () => {
         </div> :
         <main id='main' className={styles.gameContainer}>
           <div className={styles.playerOneDiv}>
-            <ResourceUi playerStats={player1.stats}></ResourceUi>
+            <ResourceUi player={player1}></ResourceUi>
           </div>
           <div className={styles.shipOneDiv}>
             <Ship player='player1' stats={player1.stats} statusEffects={player1.statusEffects} turn={gameState.turn}></Ship>
@@ -147,7 +154,7 @@ const Home: NextPage = () => {
           </div>
           <div className={styles.gamePlayDiv}></div>
           <div className={styles.playerTwoDiv}>
-            <ResourceUi playerStats={player2.stats}></ResourceUi>
+            <ResourceUi player={player2}></ResourceUi>
           </div>
           <div className={styles.shipTwoDiv}>
             <Ship player='player2' stats={player2.stats} statusEffects={player2.statusEffects} turn={gameState.turn}></Ship>
