@@ -54,7 +54,7 @@ const Home: NextPage = () => {
       setGameData([...gameData])
       const endGameData = {
         data: [...gameData],
-        timestamp: new Date().toISOString()
+        timestamp: new Date()
       }
       await writeData(endGameData)
     }
