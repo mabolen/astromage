@@ -18,9 +18,8 @@ import styles from '../styles/Home.module.css'
 import { PlayerStats, CardObject, Player } from '../src/types';
 
 // Utilities
-import { GameInstance } from '../src/utils';
+import { GameInstance, Animator, updateGameData, writeData } from '../src/utils';
 import { OpponentAI } from '../src/opponent/opponent-ai';
-import { Animator } from '../src/utils'
 
 const Home: NextPage = () => {
   const gameInstance = new GameInstance()
@@ -32,9 +31,10 @@ const Home: NextPage = () => {
   const [player2, updatePlayer2] = useState(gameInstance.newPlayer())
   const [stats1, updateStats1] = useState(Object.values(player1.stats))
   const [stats2, updateStats2] = useState(Object.values(player2.stats))
+  const [gameData, setGameData] = useState([updateGameData(player1, player2, gameState, '', null)])
 
   const winCondition = async (player: PlayerStats, opponent: PlayerStats) => {
-    const resourceWin = (player.energy || player.ammunition || player.material || player.health) >= 50
+    const resourceWin = (player.energy >= 50 || player.ammunition >= 50 || player.material >= 50 || player.health >= 50)
     return opponent.health <= 0 || resourceWin
   }
 
@@ -48,6 +48,15 @@ const Home: NextPage = () => {
       console.log('Player 2 wins!')
       gameState.started = false; gameState.win = true; gameState.winner = 'Player 2'
       updateGameState({ ...gameState })
+    }
+    if (gameState.win) {
+      gameData.push({player1: player1, player2: player2, gameState: gameState, action: '', card: null})
+      setGameData([...gameData])
+      const endGameData = {
+        data: [...gameData],
+        timestamp: new Date().toISOString()
+      }
+      await writeData(endGameData)
     }
   }
 
@@ -75,6 +84,7 @@ const Home: NextPage = () => {
     updatePlayer1({...gameInstance.newPlayer(), name: 'player1'})
     updatePlayer2({...gameInstance.newPlayer(), name: 'player2'})
     updateGameState(gameInstance.newGame())
+    setGameData([updateGameData(player1, player2, gameState, '', null)])
   }
 
   const playCard = async (c: CardObject, p: Player, o: Player, i: number) => {
@@ -86,17 +96,18 @@ const Home: NextPage = () => {
     gameState.turn === 2 && setActiveCards(null)
     await animator.animateDraw(`card-${i}`)
     gameState.turn === 1 && setActiveCards(null)
-    endRound(p)
+    endRound(p, 'play', c)
   }
 
   const handleDiscard = async (p: Player, i: number, e?: any) => {
+    const card = p.hand[i]
     e && e.preventDefault()
     setActiveCards(i)
     await gameInstance.discardCard(p, i)
     updateStats()
     await animator.animateDraw(`card-${i}`)
     setActiveCards(null)
-    endRound(p)
+    endRound(p, 'discard', card)
   }
 
   const updateStats = () => {
@@ -106,7 +117,8 @@ const Home: NextPage = () => {
     updateStats2(Object.values(player2.stats))
   }
 
-  const endRound = async (p: Player) => {
+  const endRound = async (p: Player, action: string, c: CardObject) => {
+    gameData.push(updateGameData(player1, player2, gameState, action, c))
     gameInstance.statusHandler(p)
     gameInstance.updateResources(p.stats)
     updateStats()
