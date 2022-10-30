@@ -124,7 +124,7 @@ const Home: NextPage = () => {
 
   const cards = (p: Player, o: Player, t: number) => p.hand.map((c: CardObject, i: number) => {
     return (
-      <div className='card-container' key={i} onClick={(e) => (c.cost <= p.stats[resMap[c.type]] && activeCards !== i) && playCard(c, p, o, i)} onContextMenu={(e) => activeCards !== i && handleDiscard(p, i, e)}>
+      <div className='card-container' key={i} onClick={(e) => (c.cost <= p.stats[resMap[c.type]] && !activeCards) && playCard(c, p, o, i)} onContextMenu={(e) => !activeCards && handleDiscard(p, i, e)}>
         <Card card={c} stats={p.stats} turn={t} cardNum={i} active={activeCards}></Card>
       </div>
     )
