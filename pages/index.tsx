@@ -141,6 +141,9 @@ const Home: NextPage = () => {
           <button className={styles.button} onClick={() => startGame()}>Start Game</button>
         </div> :
         <main id='main' className={styles.gameContainer}>
+           <audio controls={false} autoPlay={true} loop={true}>
+            <source src="audio/music/backchill.mp3" type="audio/mp3"/>
+          </audio> 
           <div className={styles.playerOneDiv}>
             <ResourceUi player={player1}></ResourceUi>
           </div>
