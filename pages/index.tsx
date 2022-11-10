@@ -18,9 +18,8 @@ import styles from '../styles/Home.module.css'
 import { PlayerStats, CardObject, Player } from '../src/types';
 
 // Utilities
-import { GameInstance } from '../src/utils';
-import { OpponentAI } from '../src/opponent/opponent-ai';
-import { Animator } from '../src/utils'
+import { GameInstance, Animator } from '../src/utils'
+import { OpponentAI } from '../src/opponent/opponent-ai'
 
 const Home: NextPage = () => {
   const gameInstance = new GameInstance()
@@ -33,18 +32,13 @@ const Home: NextPage = () => {
   const [stats1, updateStats1] = useState(Object.values(player1.stats))
   const [stats2, updateStats2] = useState(Object.values(player2.stats))
 
-  const winCondition = async (player: PlayerStats, opponent: PlayerStats) => {
-    const resourceWin = (player.energy || player.ammunition || player.material || player.health) >= 50
-    return opponent.health <= 0 || resourceWin
-  }
-
   const checkWin = async () => {
-    if (await winCondition(player1.stats, player2.stats)) {
+    if (await gameInstance.winCondition(player1.stats, player2.stats)) {
       console.log('Player 1 wins!')
       gameState.started = false; gameState.win = true; gameState.winner = 'Player 1'
       updateGameState({ ...gameState })
     }
-    if (await winCondition(player2.stats, player1.stats)) {
+    if (await gameInstance.winCondition(player2.stats, player1.stats)) {
       console.log('Player 2 wins!')
       gameState.started = false; gameState.win = true; gameState.winner = 'Player 2'
       updateGameState({ ...gameState })
@@ -59,17 +53,9 @@ const Home: NextPage = () => {
     })
   }, [gameState.turn])
 
-  // Ref and useEffect hook for triggering effects
+  // Refs for triggering effects
   const player1Ref = useRef({...player1.stats})
   const player2Ref = useRef({...player2.stats})
-
-  useEffect(() => {
-    [{p: player1, r: player1Ref}, {p: player2, r: player2Ref}].forEach(el => {
-      animator.animateEffect(el.p, el.r)
-      animator.animateResourceCard(el.p, el.r)
-      el.r.current = {...el.p.stats}
-    })
-  }, [...stats1, ...stats2])
 
   const startGame = (): void => {
     updatePlayer1({...gameInstance.newPlayer(), name: 'player1'})
@@ -104,6 +90,13 @@ const Home: NextPage = () => {
     updatePlayer2({ ...player2 })
     updateStats1(Object.values(player1.stats))
     updateStats2(Object.values(player2.stats))
+    
+    const refs = [{p: player1, r: player1Ref}, {p: player2, r: player2Ref}]
+    refs.forEach(el => {
+      animator.animateEffect(el.p, el.r)
+      animator.animateResourceCard(el.p, el.r, activeCards)
+      el.r.current = {...el.p.stats}
+    })
   }
 
   const endRound = async (p: Player) => {
@@ -141,7 +134,7 @@ const Home: NextPage = () => {
           <button className={styles.button} onClick={() => startGame()}>Start Game</button>
         </div> :
         <main id='main' className={styles.gameContainer}>
-           <audio controls={false} autoPlay={true} loop={true}>
+          <audio controls={false} autoPlay={true} loop={true}>
             <source src="audio/music/backchill.mp3" type="audio/mp3"/>
           </audio> 
           <div className={styles.playerOneDiv}>
