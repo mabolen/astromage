@@ -19,14 +19,14 @@ export type Props = {
     stats: PlayerStats
     turn: number
     cardNum: number
-    active: number | null
+    active: number[]
 }
 
 const Card = ({ card, stats, turn, cardNum, active }: Props) => {
-    
+
     const img = cardTypeIcons[card.type]
-    const isActive = active === cardNum
-    const disabled = (!isActive && active) || card.cost > stats[resMap[card.type]]
+    const isActive = active.includes(cardNum)
+    const disabled = (!isActive && active.length) || card.cost > stats[resMap[card.type]]
     const cardBack = (turn === 2 && !isActive)
 
     return (

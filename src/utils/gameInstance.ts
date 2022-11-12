@@ -93,8 +93,21 @@ export class GameInstance {
     }
 
     async winCondition(player: PlayerStats, opponent: PlayerStats) {
-        const resourceWin = (player.energy || player.ammunition || player.material || player.health) >= 50
+        const resourceWin = (player.energy >= 50 || player.ammunition >= 50 || player.material >= 50 || player.health >= 50)
         return opponent.health <= 0 || resourceWin
+    }
+
+    async checkWin(gameState: GameInterface, player1: Player, player2: Player) {
+        if (await this.winCondition(player1.stats, player2.stats)) {
+            console.log('Player 1 wins!')
+            gameState.started = false; gameState.win = true; gameState.winner = 'Player 1'
+            return { ...gameState }
+        }
+        if (await this.winCondition(player2.stats, player1.stats)) {
+            console.log('Player 2 wins!')
+            gameState.started = false; gameState.win = true; gameState.winner = 'Player 2'
+            return { ...gameState }
+        }
     }
 
     updateResources(p: PlayerStats) {

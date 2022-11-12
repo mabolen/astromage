@@ -26,27 +26,13 @@ const Home: NextPage = () => {
   const animator = new Animator()
   const opponentAI = new OpponentAI()
   const [gameState, updateGameState] = useState(gameInstance.initialInstance)
-  const [activeCards, setActiveCards] = useState<number | null>(null)
+  const [activeCards, setActiveCards] = useState<number[]>([])
   const [player1, updatePlayer1] = useState(gameInstance.newPlayer())
   const [player2, updatePlayer2] = useState(gameInstance.newPlayer())
-  const [stats1, updateStats1] = useState(Object.values(player1.stats))
-  const [stats2, updateStats2] = useState(Object.values(player2.stats))
-
-  const checkWin = async () => {
-    if (await gameInstance.winCondition(player1.stats, player2.stats)) {
-      console.log('Player 1 wins!')
-      gameState.started = false; gameState.win = true; gameState.winner = 'Player 1'
-      updateGameState({ ...gameState })
-    }
-    if (await gameInstance.winCondition(player2.stats, player1.stats)) {
-      console.log('Player 2 wins!')
-      gameState.started = false; gameState.win = true; gameState.winner = 'Player 2'
-      updateGameState({ ...gameState })
-    }
-  }
 
   useEffect(() => {
-    checkWin().then(() => {
+    gameInstance.checkWin(gameState, player1, player2).then((res) => {
+      res && updateGameState(res)
       if (gameState.turn === 2 && !gameState.win) {
         opponentRound()
       }
@@ -57,6 +43,16 @@ const Home: NextPage = () => {
   const player1Ref = useRef({...player1.stats})
   const player2Ref = useRef({...player2.stats})
 
+  useEffect(() => {
+    const refs = [{p: player1, r: player1Ref}, {p: player2, r: player2Ref}]
+    refs.forEach(async el => {
+      animator.animateEffect(el.p, el.r)
+      animator.animateResourceCard(el.p, el.r)
+      activeCards.length && animator.animateResource(el.p, el.r, activeCards)
+      el.r.current = {...el.p.stats}
+    })
+  }, [Object.values(player1.stats), Object.values(player2.stats)])
+
   const startGame = (): void => {
     updatePlayer1({...gameInstance.newPlayer(), name: 'player1'})
     updatePlayer2({...gameInstance.newPlayer(), name: 'player2'})
@@ -64,42 +60,42 @@ const Home: NextPage = () => {
   }
 
   const playCard = async (c: CardObject, p: Player, o: Player, i: number) => {
-    setActiveCards(i)
+    setActiveCards([...activeCards, i])
     await gameInstance.playCard(c, p, o, i)
     updateStats()
     await gameInstance.discardCard(p, i)
     updateStats()
-    gameState.turn === 2 && setActiveCards(null)
+    gameState.turn === 2 && setActiveCards([])
     await animator.animateDraw(`card-${i}`)
-    gameState.turn === 1 && setActiveCards(null)
+    gameState.turn === 1 && setActiveCards([])
     endRound(p)
   }
 
   const handleDiscard = async (p: Player, i: number, e?: any) => {
     e && e.preventDefault()
-    setActiveCards(i)
+    setActiveCards([...activeCards, i])
     await gameInstance.discardCard(p, i)
     updateStats()
     await animator.animateDraw(`card-${i}`)
-    setActiveCards(null)
+    setActiveCards([])
     endRound(p)
   }
 
   const updateStats = () => {
     updatePlayer1({ ...player1 })
     updatePlayer2({ ...player2 })
-    updateStats1(Object.values(player1.stats))
-    updateStats2(Object.values(player2.stats))
-    
-    const refs = [{p: player1, r: player1Ref}, {p: player2, r: player2Ref}]
-    refs.forEach(el => {
-      animator.animateEffect(el.p, el.r)
-      animator.animateResourceCard(el.p, el.r, activeCards)
-      el.r.current = {...el.p.stats}
-    })
+
+    // const refs = [{p: player1, r: player1Ref}, {p: player2, r: player2Ref}]
+    // refs.forEach(async el => {
+    //   animator.animateEffect(el.p, el.r)
+    //   animator.animateResourceCard(el.p, el.r)
+    //   activeCards.length && animator.animateResource(el.p, el.r, activeCards)
+    //   el.r.current = {...el.p.stats}
+    // })
   }
 
   const endRound = async (p: Player) => {
+    setActiveCards([])
     gameInstance.statusHandler(p)
     gameInstance.updateResources(p.stats)
     updateStats()
@@ -117,7 +113,7 @@ const Home: NextPage = () => {
 
   const cards = (p: Player, o: Player, t: number) => p.hand.map((c: CardObject, i: number) => {
     return (
-      <div className='card-container' key={i} onClick={(e) => (c.cost <= p.stats[resMap[c.type]] && !activeCards) && playCard(c, p, o, i)} onContextMenu={(e) => !activeCards && handleDiscard(p, i, e)}>
+      <div className='card-container' key={i} onClick={(e) => (c.cost <= p.stats[resMap[c.type]] && !activeCards.length) && playCard(c, p, o, i)} onContextMenu={(e) => (!activeCards.length && gameState.turn !== 2) && handleDiscard(p, i, e)}>
         <Card card={c} stats={p.stats} turn={t} cardNum={i} active={activeCards}></Card>
       </div>
     )
@@ -134,9 +130,9 @@ const Home: NextPage = () => {
           <button className={styles.button} onClick={() => startGame()}>Start Game</button>
         </div> :
         <main id='main' className={styles.gameContainer}>
-           <audio controls={false} autoPlay={true} loop={true}>
+          {/* <audio controls={false} autoPlay={true} loop={true}>
             <source src="audio/music/backbase.mp3" type="audio/mp3"/>
-          </audio> 
+          </audio>  */}
           <div className={styles.playerOneDiv}>
             <ResourceUi player={player1}></ResourceUi>
           </div>
