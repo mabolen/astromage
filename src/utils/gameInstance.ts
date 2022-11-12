@@ -8,7 +8,7 @@ import { defenseCards, powerCards, offenseCards, set, change, damage } from '../
 import { CardObject, PlayerStats, GameInterface, Player, StatusAction, Status, StatusEffects } from '../types'
 
 // Utilities
-import { Animator } from './animations'
+import { Animator } from './'
 
 export class GameInstance {
     deck = [defenseCards, offenseCards, powerCards].flat()
@@ -90,6 +90,11 @@ export class GameInstance {
             statusEffects: statusEffects,
             name: ''
         }
+    }
+
+    async winCondition(player: PlayerStats, opponent: PlayerStats) {
+        const resourceWin = (player.energy || player.ammunition || player.material || player.health) >= 50
+        return opponent.health <= 0 || resourceWin
     }
 
     updateResources(p: PlayerStats) {
