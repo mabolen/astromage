@@ -22,9 +22,10 @@ import { GameInstance, Animator } from '../src/utils'
 import { OpponentAI } from '../src/opponent/opponent-ai'
 
 const Home: NextPage = () => {
+  // Utility Classes
   const gameInstance = new GameInstance()
-  const animator = new Animator()
   const opponentAI = new OpponentAI()
+
   const [gameState, updateGameState] = useState(gameInstance.initialInstance)
   const [activeCards, setActiveCards] = useState<number[]>([])
   const [player1, updatePlayer1] = useState(gameInstance.newPlayer())
@@ -43,16 +44,19 @@ const Home: NextPage = () => {
   const player1Ref = useRef({...player1.stats})
   const player2Ref = useRef({...player2.stats})
 
+  // For playing animations and sounds
   useEffect(() => {
     const refs = [{p: player1, r: player1Ref}, {p: player2, r: player2Ref}]
     refs.forEach(async el => {
-      animator.animateEffect(el.p, el.r)
-      animator.animateResourceCard(el.p, el.r)
-      activeCards.length && animator.animateResource(el.p, el.r, activeCards)
+      gameInstance.animator.animateEffect(el.p, el.r)
+      gameInstance.animator.animateResourceCard(el.p, el.r)
+      // We want animations/sounds to play only when resources are changed by a card's action, not from resource production or cost
+      activeCards.length && gameInstance.animator.animateResource(el.p, el.r, activeCards)
       el.r.current = {...el.p.stats}
     })
   }, [Object.values(player1.stats), Object.values(player2.stats)])
 
+  // Game Actions
   const startGame = (): void => {
     updatePlayer1({...gameInstance.newPlayer(), name: 'player1'})
     updatePlayer2({...gameInstance.newPlayer(), name: 'player2'})
@@ -66,7 +70,7 @@ const Home: NextPage = () => {
     await gameInstance.discardCard(p, i)
     updateStats()
     gameState.turn === 2 && setActiveCards([])
-    await animator.animateDraw(`card-${i}`)
+    await gameInstance.animator.animateDraw(`card-${i}`)
     gameState.turn === 1 && setActiveCards([])
     endRound(p)
   }
@@ -76,7 +80,7 @@ const Home: NextPage = () => {
     setActiveCards([...activeCards, i])
     await gameInstance.discardCard(p, i)
     updateStats()
-    await animator.animateDraw(`card-${i}`)
+    await gameInstance.animator.animateDraw(`card-${i}`)
     setActiveCards([])
     endRound(p)
   }
@@ -84,14 +88,6 @@ const Home: NextPage = () => {
   const updateStats = () => {
     updatePlayer1({ ...player1 })
     updatePlayer2({ ...player2 })
-
-    // const refs = [{p: player1, r: player1Ref}, {p: player2, r: player2Ref}]
-    // refs.forEach(async el => {
-    //   animator.animateEffect(el.p, el.r)
-    //   animator.animateResourceCard(el.p, el.r)
-    //   activeCards.length && animator.animateResource(el.p, el.r, activeCards)
-    //   el.r.current = {...el.p.stats}
-    // })
   }
 
   const endRound = async (p: Player) => {
@@ -130,9 +126,9 @@ const Home: NextPage = () => {
           <button className={styles.button} onClick={() => startGame()}>Start Game</button>
         </div> :
         <main id='main' className={styles.gameContainer}>
-          {/* <audio controls={false} autoPlay={true} loop={true}>
+          <audio controls={false} autoPlay={true} loop={true}>
             <source src="audio/music/backbase.mp3" type="audio/mp3"/>
-          </audio>  */}
+          </audio> 
           <div className={styles.playerOneDiv}>
             <ResourceUi player={player1}></ResourceUi>
           </div>

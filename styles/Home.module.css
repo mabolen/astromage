@@ -19,8 +19,8 @@
 }
 
 .cardDeck {
-  width: 180px;
-  height: 290px;
+  width: calc(180px * 0.9);
+  height: calc(290px * 0.9);
   border: 1px solid white;
   border-radius: 2px;
   overflow: hidden;
