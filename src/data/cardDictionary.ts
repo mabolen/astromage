@@ -544,7 +544,7 @@ export const powerCards: CardObject[] = [
     },
     {
         name: 'Reality Warp',
-        description: '-2 all Production, -2 all Enemy Production',
+        description: '+2 all Production, -2 all Enemy Production',
         type: 'power',
         cost: 15,
         rarity: 5,
