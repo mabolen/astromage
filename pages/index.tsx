@@ -122,7 +122,19 @@ const Home: NextPage = () => {
       </Head>
       {!gameState.started && !gameState.win ?
         <div className={styles.startContainer}>
-          <h1>AstroMage</h1>
+          <h1>Welcome to AstroMage!</h1>
+          <div>
+            <h3>How to play:</h3>
+            <p>Each turn you may play or discard a card. <br />Click a card to play it. Right-click to discard.</p>
+            <p>
+              There are 3 resource types: Material, Energy, and Ammo.<br />
+              Each corresponds to a production stat: Defense, Power, Offense. <br />
+              You must have enough of a resource to play a card. <br />
+              You will replenish a resource by the production stat at the end of each turn.
+            </p>
+            <p>You can win by destroying the enemy ship, or getting any resource/stat to 50.</p>
+            
+          </div>
           <button className={styles.button} onClick={() => startGame()}>Start Game</button>
         </div> :
         <main id='main' className={styles.gameContainer}>

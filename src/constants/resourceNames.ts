@@ -1,26 +1,26 @@
 // Types
 import { ResourceMap, ResProdMap } from "../types"
 
-export const resNames = ['material', 'energy', 'ammunition'] as const
+export const resNames = ['material', 'energy', 'ammo'] as const
 
-export const resProds = ['materialProd', 'energyProd', 'ammunitionProd']
+export const resProds = ['materialProd', 'energyProd', 'ammoProd']
 
 export const resProdMap: ResProdMap = {
     materialProd: 'material',
     energyProd: 'energy',
-    ammunitionProd: 'ammunition',
+    ammoProd: 'ammo',
 } as const
 
 export const resMap: ResourceMap = {
   defense: 'material',
   power: 'energy',
-  offense: 'ammunition',
+  offense: 'ammo',
 } as const
 
 export const prodTypeMap = {
   defense: 'materialProd',
   power: 'energyProd',
-  offense: 'ammunitionProd',
+  offense: 'ammoProd',
 } as const
 
 export const allStatusNames = [
@@ -28,16 +28,16 @@ export const allStatusNames = [
   'hull',
   'material',
   'energy',
-  'ammunition',
+  'ammo',
   'materialProd',
   'energyProd',
-  'ammunitionProd',
+  'ammoProd',
 ] as const
 
 export const resNameAllMap = {
   material: ['material', 'materialProd'],
   energy: ['energy', 'energyProd'],
-  ammunition: ['ammunition', 'ammunitionProd'],
+  ammo: ['ammo', 'ammoProd'],
 } as const
 
-export type ResNameType = 'material' | 'energy' | 'ammunition'
+export type ResNameType = 'material' | 'energy' | 'ammo'

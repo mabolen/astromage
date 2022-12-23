@@ -56,7 +56,7 @@ export const statusActions: StatusActions = {
         amount: 2
     },
     noOffense: {
-        target: 'ammunitionProd',
+        target: 'ammoProd',
         effect: 'set',
         amount: 2
     },

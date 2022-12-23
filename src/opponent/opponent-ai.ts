@@ -7,10 +7,10 @@ export class OpponentAI {
         const startStats = {
             material: 5,
             energy: 5,
-            ammunition: 5,
+            ammo: 5,
             materialProd: 2,
             energyProd: 2,
-            ammunitionProd: 2,
+            ammoProd: 2,
             health: 20,
             hull: 10
         }

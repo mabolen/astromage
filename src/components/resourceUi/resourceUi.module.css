@@ -1,5 +1,5 @@
 .uiContainer {
-    width: 100%;
+    padding: 2%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,15 +7,24 @@
     height: 100%;
 }
 .resourceDiv {
-    width: 150px;
-    height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    width: 100%;
+    height: 100%;
     border: 1px solid white;
     border-radius: 3px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    justify-content: space-evenly;
     padding: 5px;
+    transition: box-shadow 0.5s ease-in-out;
+}
+.resType {
+    min-width: 62px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 0 0 4px;
 }
 .defense {
     background-color: rgba(51, 51, 51, 0.8);
@@ -28,42 +37,36 @@
 }
 .imageDiv {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 100px;
+    height: 100%;
     border: 1px solid white;
     border-radius: 3px;
-    margin-bottom: 5px;
+    padding: 4%;
+    outline: none;
+}
+.imgContainer {
+    position: relative;
+    padding: 2%;
+    display: flex;
+    align-items: center;
+    max-width: 67px;
+    max-height: 67px;
 }
 .resourceCountDiv {
     width: 100%;
-    height: 33px;
+    padding: 1%;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 .replenishCount {
-    width: 40px;
-    position: relative;
-    left: -10px;
-    bottom: -30px;
-    font-size: 20px;
+    text-align: center;
+    font-size: 1.25rem;
     font-weight: 600;
-}
-.resourceEffect {
-    position: fixed;
-    width: 150px;
-    height: 150px;
-    border-radius: 3px;
-    box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.8);
-    opacity: 0;
-}
-.resourceDownEffect {
-    position: fixed;
-    width: 150px;
-    height: 150px;
-    border-radius: 3px;
-    box-shadow: 0 0 5px 5px rgb(227, 56, 56);
-    opacity: 0;
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    padding: 2%;
 }

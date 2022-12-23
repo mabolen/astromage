@@ -1,6 +1,7 @@
 import { Player } from "../types"
 import { resNames, resProds } from "../constants"
 import { AudioUtility } from "./audioUtils"
+import animationStyles from '../../styles/animation.module.css'
 
 export class Animator {
 
@@ -33,7 +34,7 @@ export class Animator {
         const deck = document.getElementById('card-deck')!
         const {x, y} = deck.getBoundingClientRect()
         
-        div.style.transform += `translate(${(x + deck.clientWidth * 1.2) - xPos}px,${y - yPos}px)`
+        div.style.transform += `translate(${x - xPos}px,${y - yPos}px)`
         this.audio.playEffect(this.audio.effects.ghost)
         await this.animateTimer(this.animateTime)
     }
@@ -69,23 +70,20 @@ export class Animator {
             if (player.stats[s] < playerRef.current[s]) statsObj.prodsDown.push(s)
         })
 
-        const keyFrames = [
-            {opacity: '0'},
-            {opacity: '1'},
-            {opacity: '1'},
-            {opacity: '0'}
-        ]
-
-        statsObj.prods.forEach(r => {
+        statsObj.prods.forEach(async (r) => {
             const div = document.getElementById(`${player.name}-${r}`)
-            div && div.animate(keyFrames, this.animateTime)
+            div && div.classList.add(animationStyles.shadowWhite)
             this.audio.playEffect(this.audio.effects.twinkle)
+            await this.animateTimer(1000)
+            div && div.classList.remove(animationStyles.shadowWhite)
         })
 
-        statsObj.prodsDown.forEach(r => {
-            const div = document.getElementById(`${player.name}-${r}-down`)
-            div && div.animate(keyFrames, this.animateTime)
+        statsObj.prodsDown.forEach(async (r) => {
+            const div = document.getElementById(`${player.name}-${r}`)
+            div && div.classList.add(animationStyles.shadowRed)
             this.audio.playEffect(this.audio.effects.hit)
+            await this.animateTimer(this.animateTime / 2)
+            div && div.classList.remove(animationStyles.shadowRed)
         })
 
         await this.animateTimer(this.animateTime)
@@ -93,10 +91,7 @@ export class Animator {
 
     async animateResource(player: Player, playerRef: any, activeCards: number[]) {
         const statsObj = {resources: [] as string[], resourcesDown: [] as string[]}
-        // console.log('anim res', activeCards)
-        // activeCards.forEach(c => {
 
-        // })
         resNames.forEach(s => {
             if (player.stats[s] > playerRef.current[s]) {
                 statsObj.resources.push(s)

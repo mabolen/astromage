@@ -22,17 +22,18 @@ export type CardProps = {
 
 const ResourceCard = ({ amount, productionAmount, type, playerName }: CardProps) => {
     return (
-        <div className={`${styles.resourceDiv} ${styles[type]}`}>
+        <div id={`${playerName}-${prodTypeMap[type]}`} className={`${styles.resourceDiv} ${styles[type]}`}>
             <div className={styles.imageDiv}>
                 <div className={styles.replenishCount}><b>{productionAmount}</b></div>
-                <Image width={64} height={64} alt={`${type} icon`} src={cardTypeIcons[type]}></Image>
+                <div className={styles.imgContainer}>
+                    <Image alt={`${type} icon`} src={cardTypeIcons[type]} objectFit={'cover'} />  
+                </div>
+                
             </div>
             <div className={styles.resourceCountDiv}>
                 <span id={`${playerName}-${resMap[type]}`}>{amount}</span>
-                <span>{capitalize(resMap[type])}</span>
+                <span className={styles.resType}>{capitalize(resMap[type])}</span>
             </div>
-            <div id={`${playerName}-${prodTypeMap[type]}`} className={styles.resourceEffect}></div>
-            <div id={`${playerName}-${prodTypeMap[type]}-down`} className={styles.resourceDownEffect}></div>
         </div>
     )
 }
@@ -59,8 +60,8 @@ const ResourceUi = ({ player }: UIProps) => {
             />
 
             <ResourceCard
-                amount={player.stats.ammunition}
-                productionAmount={player.stats.ammunitionProd}
+                amount={player.stats.ammo}
+                productionAmount={player.stats.ammoProd}
                 type="offense"
                 playerName={player.name}
             />

@@ -1,7 +1,7 @@
 import { Player, CardPlayerStats, StatusEffects } from "../types"
 
 const minimumValue = (p: CardPlayerStats, t: keyof CardPlayerStats) => {
-    if (t === 'materialProd' || t === 'energyProd' || t === 'ammunitionProd') {
+    if (t === 'materialProd' || t === 'energyProd' || t === 'ammoProd') {
         return p[t] <= 0 ? 1 : p[t]
     // } else if (t === 'hull' || t === 'health') {
     //     return p[t]
