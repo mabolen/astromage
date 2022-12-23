@@ -39,8 +39,8 @@ const Ship = ({ player, stats, statusEffects, turn }: Props) => {
                 </div>
             </div>
             <div className={styles.shipUI}>
-                <span>Health: {stats.health} </span>
-                <span>Hull: {stats.hull}</span>
+                <span>Health:&nbsp;{stats.health} </span>
+                <span>Hull:&nbsp;{stats.hull}</span>
             </div>
             <div className={styles.statusEffects}>
                 {statusEffects && Object.keys(statusEffects).map((e) =>

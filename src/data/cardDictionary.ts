@@ -14,12 +14,12 @@ export const defenseCards: CardObject[] = [
     },
     {
         name: 'Matter Conversion',
-        description: 'Ammunition +2, Energy +2',
+        description: 'Ammo +2, Energy +2',
         type: 'defense',
         cost: 3,
         rarity: 1,
         actions: (p, o) => {
-            change(p.stats, 'ammunition', 2)
+            change(p.stats, 'ammo', 2)
             change(p.stats, 'energy', 2)
         }
     },
@@ -57,14 +57,14 @@ export const defenseCards: CardObject[] = [
     },
     {
         name: 'Unionize Workers',
-        description: 'Defense +1, -2 Energy, -2 Ammunition',
+        description: 'Defense +1, -2 Energy, -2 Ammo',
         type: 'defense',
         cost: 2,
         rarity: 2,
         actions: (p, o) => {
             change(p.stats, 'materialProd', 1)
             change(p.stats, 'energy', -2)
-            change(p.stats, 'ammunition', -2)
+            change(p.stats, 'ammo', -2)
         }
     },
     {
@@ -99,12 +99,12 @@ export const defenseCards: CardObject[] = [
     },
     {
         name: 'Matter Accumulation',
-        description: 'Ammunition +4, Energy +4',
+        description: 'Ammo +4, Energy +4',
         type: 'defense',
         cost: 4,
         rarity: 3,
         actions: (p, o) => {
-            change(p.stats, 'ammunition', 4)
+            change(p.stats, 'ammo', 4)
             change(p.stats, 'energy', 4)
         }
     },   
@@ -120,14 +120,14 @@ export const defenseCards: CardObject[] = [
     },
     {
         name: 'Recycle Material',
-        description: 'Defense -1, Ammunition +6, Offense +1',
+        description: 'Defense -1, Ammo +6, Offense +1',
         type: 'defense',
         cost: 6,
         rarity: 3,
         actions: (p, o) => {
             change(p.stats, 'materialProd', -1)
-            change(p.stats, 'ammunition', 6)
-            change(p.stats, 'ammunitionProd', 1)
+            change(p.stats, 'ammo', 6)
+            change(p.stats, 'ammoProd', 1)
         }
     },
     {
@@ -150,7 +150,7 @@ export const defenseCards: CardObject[] = [
         actions: (p, o) => {
             change(p.stats, 'materialProd', 1)
             change(p.stats, 'energyProd', 1)
-            change(p.stats, 'ammunitionProd', 1)
+            change(p.stats, 'ammoProd', 1)
         }
     },
     {
@@ -223,7 +223,7 @@ export const offenseCards: CardObject[] = [
         cost: 4,
         rarity: 2,
         actions: (p, o) => {
-            change(p.stats, 'ammunitionProd', -1)
+            change(p.stats, 'ammoProd', -1)
             change(p.stats, 'materialProd', 1)
             change(p.stats, 'material', 2)
         }
@@ -235,7 +235,7 @@ export const offenseCards: CardObject[] = [
         cost: 3,
         rarity: 2,
         actions: (p, o) => {
-            change(p.stats, 'ammunitionProd', 1)
+            change(p.stats, 'ammoProd', 1)
         }   
     },
     {
@@ -278,7 +278,7 @@ export const offenseCards: CardObject[] = [
         cost: 7,
         rarity: 3,
         actions: (p, o) => {
-            change(o.stats, 'ammunitionProd', -2)
+            change(o.stats, 'ammoProd', -2)
         }   
     },
     {
@@ -288,7 +288,7 @@ export const offenseCards: CardObject[] = [
         cost: 6,
         rarity: 3,
         actions: (p, o) => {
-            change(o.stats, 'ammunitionProd', -1)
+            change(o.stats, 'ammoProd', -1)
             change(o.stats, 'energyProd', -1)
             change(o.stats, 'materialProd', -1)
         }   
@@ -300,7 +300,7 @@ export const offenseCards: CardObject[] = [
         cost: 5,
         rarity: 3,
         actions: (p, o) => {
-            change(p.stats, 'ammunitionProd', 1)
+            change(p.stats, 'ammoProd', 1)
             damage(o.stats, 5)
         }   
     },
@@ -342,7 +342,7 @@ export const offenseCards: CardObject[] = [
         cost: 13,
         rarity: 5,
         actions: (p, o) => {
-            change(p.stats, 'ammunitionProd', 2)
+            change(p.stats, 'ammoProd', 2)
             damage(o.stats, 15)
         }   
     },
@@ -364,7 +364,7 @@ export const offenseCards: CardObject[] = [
         rarity: 5,
         actions: (p, o) => {
             damage(o.stats, 12)
-            change(o.stats, 'ammunitionProd', -2)
+            change(o.stats, 'ammoProd', -2)
             change(o.stats, 'energyProd', -2)
             change(o.stats, 'materialProd', -2)
         }  
@@ -399,7 +399,7 @@ export const powerCards: CardObject[] = [
         cost: 3,
         rarity: 1,
         actions: (p, o) => {
-            change(p.stats, 'ammunitionProd', 1)
+            change(p.stats, 'ammoProd', 1)
         }
     },
     {
@@ -435,12 +435,12 @@ export const powerCards: CardObject[] = [
     },
     {
         name: 'Psy-Scout Prospecting',
-        description: 'Ammunition +4, Material +4',
+        description: 'Ammo +4, Material +4',
         type: 'power',
         cost: 3,
         rarity: 2,
         actions: (p, o) => {
-            change(p.stats, 'ammunition', 1)
+            change(p.stats, 'ammo', 1)
             change(p.stats, 'material', 4)
         }
     },
@@ -487,13 +487,13 @@ export const powerCards: CardObject[] = [
     },
     {
         name: 'Energy Weapons',
-        description: 'Offense +1, Ammunition +5',
+        description: 'Offense +1, Ammo +5',
         type: 'power',
         cost: 6,
         rarity: 3,
         actions: (p, o) => {
-            change(p.stats, 'ammunitionProd', 1)
-            change(p.stats, 'ammunition', 5)
+            change(p.stats, 'ammoProd', 1)
+            change(p.stats, 'ammo', 5)
         }
     },
     {
@@ -538,7 +538,7 @@ export const powerCards: CardObject[] = [
         rarity: 5,
         actions: (p, o) => {
             change(p.stats, 'energyProd', 1)
-            change(p.stats, 'ammunitionProd', 1)
+            change(p.stats, 'ammoProd', 1)
             damage(o.stats, 15)
         }
     },
@@ -549,10 +549,10 @@ export const powerCards: CardObject[] = [
         cost: 15,
         rarity: 5,
         actions: (p, o) => {
-            change(p.stats, 'ammunitionProd', 2)
+            change(p.stats, 'ammoProd', 2)
             change(p.stats, 'energyProd', 2)
             change(p.stats, 'materialProd', 2)
-            change(o.stats, 'ammunitionProd', -2)
+            change(o.stats, 'ammoProd', -2)
             change(o.stats, 'energyProd', -2)
             change(o.stats, 'materialProd', -2)
         }

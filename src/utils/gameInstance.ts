@@ -37,10 +37,10 @@ export class GameInstance {
         const initialStats: PlayerStats = {
             material: 5,
             energy: 5,
-            ammunition: 5,
+            ammo: 5,
             materialProd: 2,
             energyProd: 2,
-            ammunitionProd: 2,
+            ammoProd: 2,
             health: 20,
             hull: 10
         }
@@ -93,7 +93,7 @@ export class GameInstance {
     }
 
     async winCondition(player: PlayerStats, opponent: PlayerStats) {
-        const resourceWin = (player.energy >= 50 || player.ammunition >= 50 || player.material >= 50 || player.health >= 50)
+        const resourceWin = (player.energy >= 50 || player.ammo >= 50 || player.material >= 50 || player.health >= 50)
         return opponent.health <= 0 || resourceWin
     }
 

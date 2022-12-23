@@ -56,14 +56,14 @@ export interface ResourceMap {
     [key: string]: string
     defense: 'material'
     power: 'energy'
-    offense: 'ammunition'
+    offense: 'ammo'
 }
 
 export interface ResProdMap {
     [key: string]: string
     materialProd: 'material'
     energyProd: 'energy'
-    ammunitionProd: 'ammunition'
+    ammoProd: 'ammo'
 }
 
 //Player
@@ -73,10 +73,10 @@ export interface PlayerStats {
     [key: string]: number
     material: number
     energy: number
-    ammunition: number
+    ammo: number
     materialProd: number
     energyProd: number
-    ammunitionProd: number
+    ammoProd: number
     health: number
     hull: number
   }

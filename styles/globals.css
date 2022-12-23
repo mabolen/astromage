@@ -5,6 +5,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   color: white;
+  color-scheme: dark;
 }
 
 a {
@@ -27,7 +28,11 @@ a {
 .card-container {
   max-width: 180px;
   max-height: 290px;
+  height: 100%;
   position: relative;
+  width: 100%;
+  min-width: 120px;
+  margin: auto;
 }
 .card-back {
   overflow: hidden;
@@ -35,13 +40,4 @@ a {
 }
 .active-card {
   z-index: 11;
-}
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
 }
