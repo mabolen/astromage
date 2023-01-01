@@ -16,8 +16,11 @@ export class AudioUtility {
     }
 
     async playEffect(src: string) {
-        const audioPlayer = new Audio()
-        audioPlayer.src = src
-        await audioPlayer.play()
+        const audioPlayer = new Audio(src)
+        try {
+            await audioPlayer.play()
+        } catch(error) {
+            console.log('Failed to play audio: ' + src)
+        }
     }
 }
