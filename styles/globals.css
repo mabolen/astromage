@@ -7,6 +7,7 @@ body {
   color: white;
   background-color: black;
   color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 a {
@@ -32,8 +33,17 @@ a {
   height: 100%;
   position: relative;
   width: 100%;
-  min-width: 120px;
+  min-width: 130px;
+  height: 100%;
   margin: auto;
+  padding: 0 2px;
+}
+@media only screen and (max-height: 600px) {
+  .card-container {
+    min-width: auto;
+    height: 100%;
+    font-size: 12px;
+  }
 }
 .card-back {
   overflow: hidden;

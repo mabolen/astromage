@@ -1,9 +1,7 @@
 .gameContainer {
   background-image: url('../public/images/space-bg.jpg');
   width: 100vw;
-  /* min-width: 720px; */
   height: 100vh;
-  min-height: 600px;
   display: grid;
   grid-template-columns: 1fr 1fr 3fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
@@ -29,6 +27,12 @@
   position: relative;
   left: -1px;
   transform: translate(-2px, -2px);
+}
+
+@media only screen and (max-width: 1100px) {
+  .cardDeck {
+    visibility: hidden;
+  }
 }
 
 .playedCardsDiv {
@@ -63,14 +67,24 @@
   grid-row: 1 / 3;
 }
 
+.handContainer {
+  grid-column: 1 / 6;
+  grid-row: 3;
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: auto;
+}
+
 .playerHandDiv {
   display: flex;
   align-items: center;
-
   width: 100%;
-  height: 100%;
-  grid-column: 1 / 6;
-  grid-row: 3;
+  height: 33.3%;
   background-color: rgba(51, 51, 51, 0.6);
 }
 
@@ -97,6 +111,11 @@
   align-items: center;
   width: 100vw;
   height: 100vh;
+  padding: 5%;
+}
+
+.startContainer > h1 {
+  text-align: center;
 }
 
 .button {
@@ -120,4 +139,49 @@
   left: 0;
   z-index: 100;
   background-color: rgba(51, 51, 51, 0.8);
+}
+
+@media only screen and (max-width: 600px) {
+  .playerOneDiv {
+    grid-row: 1 / 2;
+  }
+  
+  .playerTwoDiv {
+    grid-row: 1 / 2;
+  }
+
+  .shipOneDiv {
+    grid-column: 1 / 3;
+  }
+  
+  .shipTwoDiv {
+    grid-column: 4 / 6;
+  }
+}
+
+@media only screen and (max-height: 600px) {
+  .playerHandDiv {
+    width: 73vw;
+    height: 50vh;
+  }
+
+  .shipOneDiv {
+    grid-row: 1 / 2;
+  }
+  
+  .shipTwoDiv {
+    grid-row: 1 / 2;
+  }
+
+  .playerOneDiv {
+    grid-row: 1 / 4;
+  }
+
+  .playerTwoDiv {
+    grid-row: 1 / 4;
+  }
+
+  .cardDeck {
+    visibility: hidden;
+  }
 }

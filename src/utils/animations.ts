@@ -33,8 +33,10 @@ export class Animator {
         const yPos = div.getBoundingClientRect().y
         const deck = document.getElementById('card-deck')!
         const {x, y} = deck.getBoundingClientRect()
+        const leftCenter = window.innerWidth / 2 - (xPos + (div.clientWidth / 2))
+        const xTarget = leftCenter < ((x + 150) - xPos) ? leftCenter : ((x + 150) - xPos)
         
-        div.style.transform += `translate(${x - xPos}px,${y - yPos}px)`
+        div.style.transform += `translate(${xTarget}px,${y - yPos}px)`
         await this.audio.playEffect(this.audio.effects.ghost)
         await this.animateTimer(this.animateTime)
     }
