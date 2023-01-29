@@ -28,13 +28,13 @@ const Ship = ({ player, stats, statusEffects, turn }: Props) => {
         <div className={styles.ship}>
             <span className={styles.playerName}>{name}</span>
             <div className={styles.shipImageDiv}>
-                <Image width={200} height={150} alt={`${name} Ship`} src={player === 'player2' ? ship_2_flipped : ship_1}></Image>
+                <Image width={200} height={150} alt={`${name} Ship`} src={player === 'player2' ? ship_2_flipped : ship_1} />
                 <div id={`${player}-effects`} className={styles.effectsContainer}>
                     <div id={`${player}-damage-effects`} className={styles.effect}>
-                        <Image width={300} height={300} alt={'red glow'} src={red_glow}></Image>
+                        <Image width={200} height={200} alt={'red glow'} src={red_glow} objectFit={'cover'} />
                     </div>
                     <div id={`${player}-positive-effects`} className={styles.effect}>
-                        <Image width={100} height={100} alt={'blue glow'} src={blue_glow}></Image>
+                        <Image width={120} height={120} alt={'blue glow'} src={blue_glow} objectFit={'cover'} />
                     </div>
                 </div>
             </div>

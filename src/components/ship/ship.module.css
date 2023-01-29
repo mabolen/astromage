@@ -12,8 +12,6 @@
 }
 
 .shipImageDiv {
-    max-height: 200px;
-    max-width: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +19,7 @@
 
 .shipUI {
     background-color: rgba(51, 51, 51, 0.8);
-    padding: 5px;
+    padding: 2%;
 }
 
 .effectsContainer {
@@ -42,12 +40,19 @@
     align-items: center;
     background-color: rgba(51, 51, 51, 0.6);
     min-height: 34px;
-    margin-top: 5px;
+    margin-top: 2%;
 }
 
 .statusIcon {
-    padding: 5px;
+    padding: 2%;
+    margin: 0 4px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media only screen and (max-height: 400px) {
+    .statusEffects {
+        min-height: 25px;
+    }
 }

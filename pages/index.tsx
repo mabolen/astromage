@@ -69,10 +69,29 @@ const Home: NextPage = () => {
     updateStats()
     await gameInstance.discardCard(p, i)
     updateStats()
-    gameState.turn === 2 && setActiveCards([])
+    gameState.turn === 2 && setActiveCards([-1])
     await gameInstance.animator.animateDraw(`card-${i}`)
-    gameState.turn === 1 && setActiveCards([])
+    setActiveCards([])
     endRound(p)
+  }
+
+  const touchStartRef = useRef(null)
+  const touchEndRef = useRef(null)
+
+  const cardTouchStart = (e: any) => {
+    touchEndRef.current = null
+    touchStartRef.current = e.targetTouches[0].clientY
+  }
+
+  const cardTouchMove = (e: any) => {
+    touchEndRef.current = e.targetTouches[0].clientY
+  }
+
+  const cardTouchEnd = (p: Player, i: number, e?: any) => {
+    if (!touchStartRef.current || !touchEndRef.current) return
+    if ((touchStartRef.current - touchEndRef.current) > 50) {
+      (!activeCards.length && gameState.turn !== 2) && handleDiscard(p, i, e)
+    }
   }
 
   const handleDiscard = async (p: Player, i: number, e?: any) => {
@@ -109,7 +128,14 @@ const Home: NextPage = () => {
 
   const cards = (p: Player, o: Player, t: number) => p.hand.map((c: CardObject, i: number) => {
     return (
-      <div className='card-container' key={i} onClick={(e) => (c.cost <= p.stats[resMap[c.type]] && !activeCards.length) && playCard(c, p, o, i)} onContextMenu={(e) => (!activeCards.length && gameState.turn !== 2) && handleDiscard(p, i, e)}>
+      <div className='card-container'
+        key={i}
+        onClick={(e) => (c.cost <= p.stats[resMap[c.type]] && !activeCards.length) && playCard(c, p, o, i)}
+        onContextMenu={(e) => (!activeCards.length && gameState.turn !== 2) && handleDiscard(p, i, e)}
+        onTouchStart={(e) => cardTouchStart(e)}
+        onTouchMove={(e) => cardTouchMove(e)}
+        onTouchEnd={(e) => cardTouchEnd(p, i, e)}
+      >
         <Card card={c} stats={p.stats} turn={t} cardNum={i} active={activeCards}></Card>
       </div>
     )
@@ -125,7 +151,7 @@ const Home: NextPage = () => {
           <h1>Welcome to AstroMage!</h1>
           <div>
             <h3>How to play:</h3>
-            <p>Each turn you may play or discard a card. <br />Click a card to play it. Right-click to discard.</p>
+            <p>Each turn you may play or discard a card. <br />Click or tap a card to play it. Right-click or swipe up to discard.</p>
             <p>
               There are 3 resource types: Material, Energy, and Ammo.<br />
               Each corresponds to a production stat: Defense, Power, Offense. <br />
@@ -159,7 +185,13 @@ const Home: NextPage = () => {
           <div className={styles.shipTwoDiv}>
             <Ship player='player2' stats={player2.stats} statusEffects={player2.statusEffects} turn={gameState.turn}></Ship>
           </div>
-          <div className={styles.playerHandDiv}>{gameState.turn === 1 ? cards(player1, player2, gameState.turn) : cards(player2, player1, gameState.turn)}</div>
+
+          <div className={styles.handContainer}>
+            <div className={styles.playerHandDiv}>
+              {gameState.turn === 1 ? cards(player1, player2, gameState.turn) : cards(player2, player1, gameState.turn)}
+            </div>
+          </div>
+
         </main>
       }
       {gameState.win &&

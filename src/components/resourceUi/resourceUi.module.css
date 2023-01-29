@@ -19,6 +19,7 @@
     justify-content: space-evenly;
     padding: 5px;
     transition: box-shadow 0.5s ease-in-out;
+    margin: 2px;
 }
 .resType {
     min-width: 62px;

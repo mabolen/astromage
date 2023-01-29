@@ -47,13 +47,13 @@
     justify-content: center;
     align-items: center;
     line-height: 1em;
+    overflow-y: auto;
 }
 .textSpan {
     height: 15%;
     overflow-y: auto;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
 }
 .cardFooter {
     width: 100%;
