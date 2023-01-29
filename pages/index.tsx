@@ -32,12 +32,11 @@ const Home: NextPage = () => {
   const [player2, updatePlayer2] = useState(gameInstance.newPlayer())
 
   useEffect(() => {
-    gameInstance.checkWin(gameState, player1, player2).then((res) => {
-      res && updateGameState(res)
-      if (gameState.turn === 2 && !gameState.win) {
-        opponentRound()
-      }
-    })
+    const checkWin = gameInstance.checkWin(gameState, player1, player2)
+    updateGameState(checkWin)
+    if (gameState.turn === 2 && !gameState.win) {
+      opponentRound()
+    }
   }, [gameState.turn])
 
   // Refs for triggering effects
@@ -47,11 +46,16 @@ const Home: NextPage = () => {
   // For playing animations and sounds
   useEffect(() => {
     const refs = [{p: player1, r: player1Ref}, {p: player2, r: player2Ref}]
-    refs.forEach(async el => {
-      gameInstance.animator.animateEffect(el.p, el.r)
-      gameInstance.animator.animateResourceCard(el.p, el.r)
-      // We want animations/sounds to play only when resources are changed by a card's action, not from resource production or cost
-      activeCards.length && gameInstance.animator.animateResource(el.p, el.r, activeCards)
+    refs.forEach(el => {
+      try {
+        !gameState.win && gameInstance.animator.animateEffect(el.p, el.r)
+        !gameState.win && gameInstance.animator.animateResourceCard(el.p, el.r)
+        // We want animations/sounds to play only when resources are changed by a card's action, not from resource production or cost
+        activeCards.length && gameInstance.animator.animateResource(el.p, el.r, activeCards)
+      } catch(error) {
+        console.log(error)
+      }
+
       el.r.current = {...el.p.stats}
     })
   }, [Object.values(player1.stats), Object.values(player2.stats)])
@@ -60,7 +64,11 @@ const Home: NextPage = () => {
   const startGame = (): void => {
     updatePlayer1({...gameInstance.newPlayer(), name: 'player1'})
     updatePlayer2({...gameInstance.newPlayer(), name: 'player2'})
-    updateGameState(gameInstance.newGame())
+    player1Ref.current = {...player1.stats}
+    player2Ref.current = {...player2.stats}
+    setTimeout(() => {
+      updateGameState(gameInstance.newGame())
+    }, 10)
   }
 
   const playCard = async (c: CardObject, p: Player, o: Player, i: number) => {
@@ -70,7 +78,13 @@ const Home: NextPage = () => {
     await gameInstance.discardCard(p, i)
     updateStats()
     gameState.turn === 2 && setActiveCards([-1])
-    await gameInstance.animator.animateDraw(`card-${i}`)
+    
+    try {
+      await gameInstance.animator.animateDraw(`card-${i}`)
+    } catch (err) {
+      console.log(err)
+    }
+    
     setActiveCards([])
     endRound(p)
   }
@@ -99,7 +113,11 @@ const Home: NextPage = () => {
     setActiveCards([...activeCards, i])
     await gameInstance.discardCard(p, i)
     updateStats()
-    await gameInstance.animator.animateDraw(`card-${i}`)
+    try {
+      await gameInstance.animator.animateDraw(`card-${i}`)
+    } catch(error) {
+      console.log(error)
+    }
     setActiveCards([])
     endRound(p)
   }
@@ -196,7 +214,7 @@ const Home: NextPage = () => {
       }
       {gameState.win &&
         <div className={styles.winContainer}>
-          <h1>{gameState.winner} WINS!</h1>
+          <h1>{gameState.winner !== 'Draw' ? gameState.winner + ' WINS!' : 'It\'s a ' + gameState.winner + '!'}</h1>
           <button className={styles.button} onClick={() => startGame()}>Start Game</button>
         </div>
       }

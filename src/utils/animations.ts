@@ -1,5 +1,5 @@
 import { Player } from "../types"
-import { resNames, resProds } from "../constants"
+import { resNames, resProds, resNameAllMap } from "../constants"
 import { AudioUtility } from "./audioUtils"
 import animationStyles from '../../styles/animation.module.css'
 
@@ -16,7 +16,7 @@ export class Animator {
         const leftCenter = window.innerWidth / 2 - (xPos + (div.clientWidth / 2))
         
         div.style.transform = `translate(${leftCenter}px,-${topCenter}px)`
-        this.audio.playEffect(this.audio.effects.ghost)
+        await this.audio.playEffect(this.audio.effects.ghost)
         await this.animateTimer(this.animateTime)
     }
 
@@ -37,7 +37,7 @@ export class Animator {
         const xTarget = leftCenter < ((x + 150) - xPos) ? leftCenter : ((x + 150) - xPos)
         
         div.style.transform += `translate(${xTarget}px,${y - yPos}px)`
-        this.audio.playEffect(this.audio.effects.ghost)
+        await this.audio.playEffect(this.audio.effects.ghost)
         await this.animateTimer(this.animateTime)
     }
 
@@ -75,7 +75,7 @@ export class Animator {
         statsObj.prods.forEach(async (r) => {
             const div = document.getElementById(`${player.name}-${r}`)
             div && div.classList.add(animationStyles.shadowWhite)
-            this.audio.playEffect(this.audio.effects.twinkle)
+            await this.audio.playEffect(this.audio.effects.twinkle)
             await this.animateTimer(1000)
             div && div.classList.remove(animationStyles.shadowWhite)
         })
@@ -83,7 +83,7 @@ export class Animator {
         statsObj.prodsDown.forEach(async (r) => {
             const div = document.getElementById(`${player.name}-${r}`)
             div && div.classList.add(animationStyles.shadowRed)
-            this.audio.playEffect(this.audio.effects.hit)
+            await this.audio.playEffect(this.audio.effects.hit)
             await this.animateTimer(this.animateTime / 2)
             div && div.classList.remove(animationStyles.shadowRed)
         })
@@ -99,7 +99,7 @@ export class Animator {
                 statsObj.resources.push(s)
             }
             activeCards.forEach(c => {
-                if (player.stats[s] < playerRef.current[s] && (playerRef.current[s] - player.stats[s] !== player.hand[c].cost)) statsObj.resourcesDown.push(s)
+                if (player.stats[s] < playerRef.current[s] && player.hand[c].type !== resNameAllMap[s][0]) statsObj.resourcesDown.push(s)
             })
         })
 
@@ -117,16 +117,16 @@ export class Animator {
             {'color': '#fff'}
         ]
 
-        statsObj.resources.forEach(r => {
+        statsObj.resources.forEach(async (r) => {
             const div = document.getElementById(`${player.name}-${r}`)
             div && div.animate(resFrames, this.animateTime)
-            this.audio.playEffect(this.audio.effects.twinkle)
+            await this.audio.playEffect(this.audio.effects.twinkle)
         })
 
-        statsObj.resourcesDown.forEach(r => {
+        statsObj.resourcesDown.forEach(async (r) => {
             const div = document.getElementById(`${player.name}-${r}`)
             div && div.animate(resDownFrames, this.animateTime)
-            this.audio.playEffect(this.audio.effects.twinkle_down)
+            await this.audio.playEffect(this.audio.effects.twinkle_down)
         })
 
         await this.animateTimer(this.animateTime)

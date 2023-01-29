@@ -35,9 +35,9 @@ export const allStatusNames = [
 ] as const
 
 export const resNameAllMap = {
-  material: ['material', 'materialProd'],
-  energy: ['energy', 'energyProd'],
-  ammo: ['ammo', 'ammoProd'],
+  material: ['defense', 'materialProd'],
+  energy: ['power', 'energyProd'],
+  ammo: ['offense', 'ammoProd'],
 } as const
 
 export type ResNameType = 'material' | 'energy' | 'ammo'
