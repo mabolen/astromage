@@ -26,7 +26,7 @@ const ResourceCard = ({ amount, productionAmount, type, playerName }: CardProps)
             <div className={styles.imageDiv}>
                 <div className={styles.replenishCount}><b>{productionAmount}</b></div>
                 <div className={styles.imgContainer}>
-                    <Image alt={`${type} icon`} src={cardTypeIcons[type]} objectFit={'cover'} />  
+                    <Image width={15} height={15} alt={`${type} icon`} src={cardTypeIcons[type]} objectFit={'contain'}  />  
                 </div>
                 
             </div>
