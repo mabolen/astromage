@@ -27,6 +27,7 @@
   border-radius: 2px;
   overflow: hidden;
   background: center no-repeat url('../public/images/card-back.jpg');
+  visibility: hidden;
 }
 
 .cardDeck > div {
@@ -52,21 +53,6 @@
   font-size: 32px;
 }
 
-/* .playerOneDiv {
-  width: 100%;
-  height: 100%;
-  grid-column: 1;
-  grid-row: 1 / 3;
-
-}
-
-.playerTwoDiv {
-  width: 100%;
-  height: 100%;
-  grid-column: 5;
-  grid-row: 1 / 3;
-} */
-
 .gamePlayDiv {
   width: 100%;
   height: 100%;
@@ -89,9 +75,10 @@
 
 .playerHandDiv {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
   height: 33.3%;
+  max-height: 320px;
   background-color: rgba(51, 51, 51, 0.6);
 }
 
@@ -173,7 +160,11 @@
   }
 }
 
-@media only screen and (max-height: 600px) {
+@media only screen and (max-height: 800px) {
+  .gameContainer {
+    grid-template-columns: 1fr 1fr 0fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
   .playerHandDiv {
     width: 100vw;
     height: 50vh;

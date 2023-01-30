@@ -36,11 +36,19 @@
 }
 
 .statusEffectsContainer {
-    /* position: absolute; */
     display: flex;
     justify-content: center;
     align-items: center;
     min-width: 24px;
+}
+
+.statusIcon {
+    padding: 2px;
+    margin: 4px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(51, 51, 51, 0.8);
 }
 
 .effectsContainer {
@@ -140,6 +148,8 @@
 
 @media only screen and (max-height: 550) {
     .shipImage {
-        max-height: 100px;
+        height: auto;
+        width: auto;
+        object-fit: contain;
     }
 }

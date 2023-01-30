@@ -3,11 +3,9 @@ import Image from 'next/image'
 
 // Constants
 import { statusIcons } from '../../constants'
-import ship_1 from '../../../public/images/ship_1.png'
 import red_glow from '../../../public/images/effects/redGlow.png'
 import blue_glow from '../../../public/images/effects/blue_glow.png'
-import ship_2_flipped from '../../../public/images/ship_2_flipped.png'
-import { resMap } from '../../constants'
+import { resMap, prodTypeMap } from '../../constants'
 
 // Utilities
 import { capitalize } from '../../utils'
@@ -22,17 +20,25 @@ export type Props = {
     player: PlayerName
     stats: PlayerStats
     statusEffects?: StatusEffects
-    turn: number
+    turn?: number
 }
 
-const Resource = ({ stats, type }: { stats: PlayerStats, type: string }) => {
+export type ResourceProps = {
+    player: PlayerName
+    stats: PlayerStats
+    statusEffects?: StatusEffects
+    turn?: number
+    type: keyof typeof prodTypeMap
+}
+
+const Resource = ({ stats, type, player }: ResourceProps) => {
 
     return (
-        <div className={styles.resource}>
+        <div id={`${player}-${prodTypeMap[type]}`} className={styles.resource}>
             <div className={styles.resourceImgContainer}>
                 <img src={`/images/${type}.png`} className={`${styles.imgDiv}`} />
                 <div className={`${styles.resourceCounter} ${type}`}>
-                    <span className={styles.resourceCount}>{stats[resMap[type]]}</span>
+                    <span id={`${player}-${resMap[type]}`} className={styles.resourceCount}>{stats[resMap[type]]}</span>
                 </div>
             </div>
             <div className={styles.prodContainer}>
@@ -71,9 +77,9 @@ const ShipUI = ({ player, stats, statusEffects, turn }: Props) => {
                     </div>
                 </div>
                 <div className={styles.resources}>
-                    <Resource stats={stats} type={'defense'} />
-                    <Resource stats={stats} type={'power'} />
-                    <Resource stats={stats} type={'offense'} />
+                    <Resource stats={stats} type={'defense'} player={player} />
+                    <Resource stats={stats} type={'power'} player={player} />
+                    <Resource stats={stats} type={'offense'} player={player} />
                 </div>
             </div>
             <div className={styles.statusEffectsContainer}>
