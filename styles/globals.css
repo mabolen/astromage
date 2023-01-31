@@ -19,13 +19,13 @@ a {
   box-sizing: border-box;
 }
 .defense {
-  background-color: rgba(51, 51, 51, 0.8);
+  background-color: rgba(51, 51, 51, 0.9);
 }
 .power {
-  background-color: rgba(17, 17, 153, 0.8);
+  background-color: rgba(17, 17, 153, 0.9);
 }
 .offense {
-  background-color: rgba(153, 17, 17, 0.8);
+  background-color: rgba(153, 17, 17, 0.9);
 }
 .card-container {
   max-width: 180px;
