@@ -1,25 +1,59 @@
-.playerName {
-    font-weight: bold;
-    font-size: 18px;
-    padding-bottom: 4px;
+.container {
+    display: flex;
 }
 
-.ship {
+.reverse {
+    flex-direction: row-reverse;
+}
+
+.shipContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
-.shipImageDiv {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.topDiv {
+    width: 100%;
+    z-index: 2;
+    
 }
 
 .shipUI {
+    text-align: center;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.playerName {
+    border-bottom: 1px solid;
+    width: 100%;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.player1Name {
+    text-align: right;
+}
+
+.player2Name {
+    text-align: left;
+}
+
+.statusEffectsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 24px;
+}
+
+.statusIcon {
+    padding: 2px;
+    margin: 4px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: rgba(51, 51, 51, 0.8);
-    padding: 2%;
 }
 
 .effectsContainer {
@@ -34,25 +68,104 @@
     position: fixed;
 }
 
-.statusEffects {
+.prodContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.prodDiv {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.imgDiv {
+    width: 30px;
+    height: 30px;
+}
+
+.resources {
+    display: flex;
+}
+
+.resource {
+    display: flex;
     background-color: rgba(51, 51, 51, 0.6);
-    min-height: 34px;
-    margin-top: 2%;
+    margin: 5px;
 }
 
-.statusIcon {
-    padding: 2%;
-    margin: 0 4px;
+.resourceImgContainer {
+    font-size: 1.25rem;
+    font-weight: 600;
+    position: relative;
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10px;
+    padding-right: 6px;
+}
+
+.resourceCounter {
+    position: absolute;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    transform: translate(8px, 18px);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-@media only screen and (max-height: 400px) {
-    .statusEffects {
-        min-height: 25px;
+.resourceCount {
+    font-size: 1rem;
+}
+
+.defenseImgDiv {
+    background-image: url('../../../public/images/defense.png');
+}
+.powerImgDiv {
+    background-image: url('../../../public/images/power.png');
+}
+.offenseImgDiv {
+    background-image: url('../../../public/images/offense.png');
+}
+
+.shipImage {
+    width: 300px;
+    height: 190px;
+}
+
+.shipImageDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-height: 700px) {
+    .shipImageDiv {
+        max-height: 20vh;
+    }
+
+    .shipImage {
+        width: 200px;
+        height: 150px;
+    }
+
+    .shipUI {
+        background-color: rgba(51, 51, 51, 0.6);
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .shipImage {
+        width: 200px;
+        height: 150px;
     }
 }

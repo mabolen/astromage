@@ -1,13 +1,11 @@
 // Packages
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react'
 
 // Components
-import Card from '../src/components/card/card';
-import ResourceUi from '../src/components/resourceUi/resourceUi';
-import Ship from '../src/components/ship/ship';
-import ShipUI from '../src/components/ship/ship_mobile';
+import Card from '../src/components/card/card'
+import Ship from '../src/components/ship/ship'
 
 // Constants
 import { resMap } from '../src/constants'
@@ -16,7 +14,7 @@ import { resMap } from '../src/constants'
 import styles from '../styles/Home.module.css'
 
 // Types
-import { PlayerStats, CardObject, Player } from '../src/types';
+import { PlayerStats, CardObject, Player } from '../src/types'
 
 // Utilities
 import { GameInstance, Animator } from '../src/utils'
@@ -187,25 +185,20 @@ const Home: NextPage = () => {
           <audio controls={false} autoPlay={true} loop={true}>
             <source src="audio/music/backbase.mp3" type="audio/mp3"/>
           </audio> 
-          {/* <div className={styles.playerOneDiv}>
-            <ResourceUi player={player1}></ResourceUi>
-          </div> */}
+
           <div className={styles.shipOneDiv}>
-            {/* <Ship player='player1' stats={player1.stats} statusEffects={player1.statusEffects} turn={gameState.turn} /> */}
-            <ShipUI player='player1' stats={player1.stats} statusEffects={player1.statusEffects} turn={gameState.turn} />
+            <Ship player='player1' stats={player1.stats} statusEffects={player1.statusEffects} turn={gameState.turn} />
           </div>
+
           <div className={styles.playedCardsDiv}>
             <div id='card-deck' className={styles.cardDeck}>
               <div className={styles.cardDeck}><div className={styles.cardDeck}></div></div>
             </div>
           </div>
           <div className={styles.gamePlayDiv}></div>
-          {/* <div className={styles.playerTwoDiv}>
-            <ResourceUi player={player2}></ResourceUi>
-          </div> */}
+
           <div className={styles.shipTwoDiv}>
-            {/* <Ship player='player2' stats={player2.stats} statusEffects={player2.statusEffects} turn={gameState.turn} /> */}
-            <ShipUI player='player2' stats={player2.stats} statusEffects={player2.statusEffects} turn={gameState.turn} />
+            <Ship player='player2' stats={player2.stats} statusEffects={player2.statusEffects} turn={gameState.turn} />
           </div>
 
           <div className={styles.handContainer}>

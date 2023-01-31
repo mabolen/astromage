@@ -84,7 +84,7 @@
 
 .shipOneDiv {
   grid-column: 1 / 3;
-  grid-row: 1 / 2;
+  grid-row: 1 / 3;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -93,7 +93,7 @@
 
 .shipTwoDiv {
   grid-column: 4 / 6;
-  grid-row: 2 / 3;
+  grid-row: 1 / 3;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -138,14 +138,6 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .playerOneDiv {
-    grid-row: 1 / 2;
-  }
-  
-  .playerTwoDiv {
-    grid-row: 1 / 2;
-  }
-
   .shipOneDiv {
     grid-column: 1 / 6;
   }
@@ -157,6 +149,14 @@
 @media only screen and (max-width: 1100px) {
   .playerHandDiv {
     background-color: rgba(51, 51, 51, 0);
+  }
+
+  .shipOneDiv {
+    grid-row: 1 / 2;
+  }
+  
+  .shipTwoDiv {
+    grid-row: 2 / 3;
   }
 }
 
