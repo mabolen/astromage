@@ -148,7 +148,7 @@
     align-items: center;
 }
 
-@media only screen and (max-height: 700px) {
+@media only screen and (max-height: 800px) {
     .shipImageDiv {
         max-height: 20vh;
     }
@@ -167,5 +167,12 @@
     .shipImage {
         width: 200px;
         height: 150px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .shipImage {
+        width: 150px;
+        height: 100px;
     }
 }
