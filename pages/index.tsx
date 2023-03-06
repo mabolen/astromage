@@ -102,7 +102,7 @@ const Home: NextPage = () => {
 
   const cardTouchEnd = (p: Player, i: number, e?: any) => {
     if (!touchStartRef.current || !touchEndRef.current) return
-    if ((touchStartRef.current - touchEndRef.current) > 50) {
+    if ((touchStartRef.current - touchEndRef.current) > 100) {
       (!activeCards.length && gameState.turn !== 2) && handleDiscard(p, i, e)
     }
   }
